@@ -1,5 +1,7 @@
 {
   "name": "SuperWash",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
