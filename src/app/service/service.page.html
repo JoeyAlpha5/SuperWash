@@ -1,7 +1,7 @@
 
 <ion-content>
   <div id="mainBody">
-    <ion-progress-bar value="0.5"></ion-progress-bar>
+    <ion-progress-bar value="0.3"></ion-progress-bar>
 
     <div id="bottomCont">
       <div id="contentContainer">
@@ -18,14 +18,30 @@
 
       <ion-card class="serviceCard" *ngFor="let item of services">
         <ion-card-content>
-            <ion-checkbox class="itemCheck" checked="false"></ion-checkbox>
+            <ion-checkbox (ionChange)="selectService($event,item.Price,item.Name)" class="itemCheck" checked="false"></ion-checkbox>
             <p class="itemName">{{item.Name}}</p>
             <p class="itemprice">R{{item.Price}}</p>
         </ion-card-content>
       </ion-card>
 
-      <ion-button expand="block">Continue</ion-button>     
+     <ion-item class="divider"></ion-item>
+     <div id="pricing">
+        <h1 style="font-size:14px;">Total: </h1>
+
+        <p style="font-size:14px;">R{{ sum_of_service }}</p>
+     </div>
+     <div id="pricing">
+        <h1 style="font-size:14px;">VAT: </h1>
+
+        <p style="font-size:14px;">R{{ vat_amount }}</p>
     </div>
+    <div id="pricing">
+      <h1>Sub Total: </h1>
+
+      <p>R{{ vat_plus_total }}</p>
+   </div>
+    <ion-button expand="block" (click)="confirmPage()">Continue</ion-button>  
+  </div>
 
   </div>
 </ion-content>

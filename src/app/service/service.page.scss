@@ -7,13 +7,11 @@
     text-align: -webkit-center;
     text-align: -moz-center;
     overflow: scroll;
+    padding-bottom: 80px;
   }
   
   div#bottomCont {
-    position: absolute;
     width: 100%;
-    transform: translateY(-50%);
-    top: 50%;
   }
   
   .containerDiv{
@@ -21,6 +19,11 @@
     height: auto;
     float: left;
     margin-bottom: 20px;
+  }
+
+  .divider{
+    height: 1px;
+    --background: rgba(128, 128, 128, 0.3);
   }
 
   #serviceOfferedText{
@@ -88,4 +91,24 @@
 
 .serviceCard {
     height: 75px;
+}
+
+#pricing h1 {
+  float: left;
+  margin: 10px 0px 20px;
+  font-size: 20px;
+  margin-left: 15px;
+}
+
+#pricing p {
+  float: right;
+  font-size: 20px;
+  margin: 10px 20px 20px 10px !important;
+  color: #1d1d1d;
+}
+
+div#pricing {
+  width: 100%;
+  height: 40px;
+  float: left;
 }
