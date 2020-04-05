@@ -12,9 +12,9 @@ import { Router } from '@angular/router';
 export class HomePage {
 
   constructor(public platform: Platform,public loadingController: LoadingController,public alertController: AlertController, public auth: AngularFireAuth,private router : Router) {
-    this.platform.backButton.subscribeWithPriority(0, ()=>{
-      navigator['app'].exitApp();
-    });
+    // this.platform.backButton.subscribeWithPriority(0, ()=>{
+    //   navigator['app'].exitApp();
+    // });
   }
 
 

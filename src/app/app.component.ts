@@ -37,7 +37,7 @@ export class AppComponent {
   initializeApp() {
     this.platform.ready().then(() => {
       this.checkUser();
-      this.statusBar.styleDefault();
+      this.statusBar.backgroundColorByHexString('#000000');
       this.splashScreen.hide();
       
     });
