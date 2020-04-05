@@ -1,9 +1,28 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>profile</ion-title>
-  </ion-toolbar>
-</ion-header>
 
 <ion-content>
+  <div id="mainBody">
+    <div id="profileImg">
+      <img src="assets/images/car_secondary.png"/>
+    </div>
+    <div id="bottomCont">
 
+      <ion-card>
+        <ion-item>
+          <ion-icon name="pin" slot="start"></ion-icon>
+          <ion-label>Profile</ion-label>
+          <ion-button fill="outline" slot="end">Update</ion-button>
+        </ion-item>
+      
+        <ion-card-content>
+            <p>Your profile details are listed below</p>
+
+            <h1>{{ fullname }}</h1>
+            <h6>{{email}}</h6>
+            <p>{{mobile}}</p>
+        </ion-card-content>
+      </ion-card>
+      <ion-button expand="block" (click)="logout()">Logout</ion-button>
+    </div>
+
+  </div>
 </ion-content>

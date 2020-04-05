@@ -1,0 +1,51 @@
+#mainBody{
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    position: absolute;
+    text-align: center;
+    text-align: -webkit-center;
+    text-align: -moz-center;
+    overflow: scroll;
+  }
+  
+  div#bottomCont {
+    position: absolute;
+    width: 100%;
+    transform: translateY(-50%);
+    top: 50%;
+  }
+
+  div#profileImg {
+    width: 100%;
+    height: 40%;
+    background: #6C63FF;
+    position: relative;
+    text-align: -webkit-center;
+}
+  
+  .containerDiv{
+    width: 100%;
+    height: auto;
+    float: left;
+    margin-bottom: 20px;
+  }
+    
+  p, h1,h6{
+    // color: white;
+    margin: 0;
+  }
+  
+  h6{
+    margin:5px 0px 10px 0px;
+  }
+
+
+  img{
+      margin-top: 10%;
+  }
+  
+  p{
+    color: gray;
+    margin: 10px 0px 50px 00px !important;
+  }

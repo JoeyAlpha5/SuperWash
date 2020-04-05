@@ -1,9 +1,28 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>login</ion-title>
-  </ion-toolbar>
-</ion-header>
 
 <ion-content>
+  <div id="mainBody">
 
+    <div id="bottomCont">
+      <div class="containerDiv">
+        <img src='assets/images/car_main.png'/>
+      </div><br>
+      <p>Proceed with your:</p>
+      <h1>Login</h1><br>
+      <div class="containerDiv">
+        <ion-item class="itemBlock">
+          <ion-label position="floating">Email</ion-label>
+          <ion-input [(ngModel)]="email"></ion-input>
+        </ion-item>
+        <ion-item class="itemBlock">
+          <ion-label position="floating">Password</ion-label>
+          <ion-input [(ngModel)]="password" type="password"></ion-input>
+        </ion-item>
+      </div>
+
+      <ion-button (click)="signIn()" expand="block">Login</ion-button>
+
+
+    </div>
+
+  </div>
 </ion-content>

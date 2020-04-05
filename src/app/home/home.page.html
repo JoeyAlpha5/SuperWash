@@ -1,20 +1,22 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <div id="mainBody">
+    <div id="profileTab">
+      <ion-icon id="profileIcon" (click)="profilePage()" name="person-circle-outline"></ion-icon>
+    </div>
+    <div id="bottomCont">
+      <div class="containerDiv">
+        <img src='assets/images/car_main.png'/>
+      </div><br>
+      <h1>Super Wash</h1>
+      <h6>JHB car was service</h6>
+      <p>Request our car wash service by clicking 
+        the button below.</p>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+      <ion-button (click)="servicePage()" expand="block">Request Car Wash</ion-button>
+
+
+    </div>
+
   </div>
 </ion-content>

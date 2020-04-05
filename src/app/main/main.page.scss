@@ -1,0 +1,21 @@
+#mainBody{
+    width: 100%;
+    height: 100%;
+    background: #6C63FF;
+    position: absolute;
+    text-align: center;
+    text-align: -webkit-center;
+    text-align: -moz-center;
+}
+
+div#bottomCont {
+    position: absolute;
+    width: 100%;
+    transform: translateY(-50%);
+    top: 50%;
+}
+
+
+#bottomBtn{
+    margin-top: 10px;
+}

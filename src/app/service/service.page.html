@@ -1,9 +1,31 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Service</ion-title>
-  </ion-toolbar>
-</ion-header>
 
 <ion-content>
+  <div id="mainBody">
+    <ion-progress-bar value="0.5"></ion-progress-bar>
 
+    <div id="bottomCont">
+      <div id="contentContainer">
+        <img src="assets/images/car_main.png"/>
+        <div id="vehicleDetails">
+          <h6>{{user_fullname}}</h6>
+          <p>Vehice: any</p>
+          <p>Current location</p>
+        </div>
+      </div>
+
+      <h1>Select services: </h1>
+      <p id="serviceOfferedText">Below are the services on offer</p>
+
+      <ion-card class="serviceCard" *ngFor="let item of services">
+        <ion-card-content>
+            <ion-checkbox class="itemCheck" checked="false"></ion-checkbox>
+            <p class="itemName">{{item.Name}}</p>
+            <p class="itemprice">R{{item.Price}}</p>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-button expand="block">Continue</ion-button>     
+    </div>
+
+  </div>
 </ion-content>

@@ -1,9 +1,40 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>register</ion-title>
-  </ion-toolbar>
-</ion-header>
 
 <ion-content>
+  <div id="mainBody">
 
+    <div id="bottomCont">
+      <div class="containerDiv">
+        <img src='assets/images/car_main.png'/>
+      </div><br>
+      <p>Proceed with your:</p>
+      <h1>Registration</h1><br>
+      <div class="containerDiv">
+        <ion-item class="itemBlock">
+          <ion-label position="floating">Email</ion-label>
+          <ion-input type="email" [(ngModel)]="email"></ion-input>
+        </ion-item>
+        <ion-item class="itemBlock">
+          <ion-label position="floating">Full name</ion-label>
+          <ion-input [(ngModel)]="fullname"></ion-input>
+        </ion-item>
+        <ion-item class="itemBlock">
+          <ion-label position="floating">Mobile</ion-label>
+          <ion-input type="tel" [(ngModel)]="mobile"></ion-input>
+        </ion-item>
+        <ion-item class="itemBlock">
+          <ion-label position="floating">Password</ion-label>
+          <ion-input type="password" [(ngModel)]="password"></ion-input>
+        </ion-item>
+        <ion-item class="itemBlock">
+          <ion-label position="floating">Confirm Password</ion-label>
+          <ion-input type="password" [(ngModel)]="confirm_password"></ion-input>
+        </ion-item>
+      </div>
+
+      <ion-button expand="block" (click)="Register()">Register</ion-button>
+
+
+    </div>
+
+  </div>
 </ion-content>
