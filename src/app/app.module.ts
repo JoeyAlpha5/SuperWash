@@ -13,6 +13,9 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+import { HttpClientModule } from '@angular/common/http';
+
+
 
 
 @NgModule({
@@ -24,7 +27,8 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     IonicStorageModule.forRoot(),
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    HttpClientModule
   ],
   providers: [
     StatusBar,

@@ -1,9 +1,44 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>payment</ion-title>
-  </ion-toolbar>
-</ion-header>
 
 <ion-content>
+  <div id="mainBody">
+    <ion-progress-bar value="0.66"></ion-progress-bar>
 
+    <div id="bottomCont">
+      <div id="contentContainer">
+        <img src="assets/images/car_main.png"/>
+        <div id="vehicleDetails">
+          <h6>{{ user_fullname }}</h6>
+          <p>Vehice: any</p>
+          <p>Location: not set</p>
+        </div>
+      </div>
+
+      <h1>Select location: </h1>
+      <p id="serviceOfferedText">Please select a location</p>
+
+      <div id="destination"> 
+        <ion-item class="itemBlock">
+          <ion-label position="floating">Car Wash Location</ion-label>
+          <ion-input id="destinationInput" (ionChange)="autocomplete()"  [(ngModel)]="location" ></ion-input>
+        </ion-item>
+      </div>
+  
+      <div id="AutoCompleteResults">
+        <ion-item id="resultingPlace" *ngFor="let item of places" (click)="SetDestination(item.description)">
+          {{ item.description }}
+        </ion-item>
+      </div>
+
+
+
+   <ion-item class="divider"></ion-item>
+    <div id="pricing">
+      <h1>Sub Total: </h1>
+
+      <p>R{{ price }}</p>
+   </div>
+    <ion-button expand="block" (click)="confirmPage()">Continue</ion-button>  
+  </div>
+
+  </div>
 </ion-content>

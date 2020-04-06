@@ -1,9 +1,43 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>confirmed</ion-title>
-  </ion-toolbar>
-</ion-header>
 
 <ion-content>
+  <div id="mainBody">
+    <ion-progress-bar value="1"></ion-progress-bar>
 
+    <div id="bottomCont">
+      <div id="contentContainer">
+        <img src="assets/images/car_main.png"/>
+        <div id="vehicleDetails">
+          <h6>{{ user_fullname }}</h6>
+          <p>Vehice: any</p>
+          <p>Location:</p>
+          <!-- <p id="locationText">{{location}}</p> -->
+        </div>
+      </div>
+
+      <h1>Confirm details: </h1>
+      <p id="serviceOfferedText">Please confirm to continue</p>
+
+      
+      <ion-card>
+        <ion-item>
+          <ion-icon name="pin" slot="start"></ion-icon>
+          <ion-label>Car wash location</ion-label>
+        </ion-item>
+      </ion-card>
+      <div id="map">
+      </div>
+
+
+   <ion-item class="divider"></ion-item>
+    <div id="pricing">
+      <h1>Sub Total: </h1>
+
+      <p>R{{ price }}</p>
+   </div>
+    <ion-button expand="block" (click)="confirmPage()">Confirm</ion-button> <br/> 
+    <div id="buttonSeperator"></div>
+    <ion-button expand="block" color="secondary" (click)="homePage()">Cancel</ion-button>  
+  </div>
+
+  </div>
 </ion-content>

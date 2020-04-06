@@ -33,6 +33,7 @@ export class ServicePage implements OnInit {
 
   ionViewDidEnter(){
     //get user details
+    this.storage.clear();
     this.sum_of_service = 0;
     this.vat_amount = 0;
     this.vat_plus_total = 0;
@@ -95,8 +96,22 @@ export class ServicePage implements OnInit {
     if(this.vat_plus_total != 0){
       this.storage.set("price", this.vat_plus_total).then((x)=>{
         this.router.navigateByUrl('payment');
+      }).catch(err=>{
+        this.showError(err);
       });
+    }else{
+      this.showError("Please select atleat one service");
     }
+  }
+
+  async showError(err){
+    const alert = await this.alertController.create({
+      header: 'Unable to continue',
+      subHeader: 'error:',
+      message: err,
+      buttons: ['OK']
+    });
+    await alert.present();
   }
 
 }
