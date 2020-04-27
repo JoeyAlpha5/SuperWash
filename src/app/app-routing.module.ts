@@ -32,6 +32,14 @@ const routes: Routes = [
     path: 'main',
     loadChildren: () => import('./main/main.module').then( m => m.MainPageModule)
   },
+  {
+    path: 'password-reset',
+    loadChildren: () => import('./password-reset/password-reset.module').then( m => m.PasswordResetPageModule)
+  },
+  {
+    path: 'car-type',
+    loadChildren: () => import('./car-type/car-type.module').then( m => m.CarTypePageModule)
+  },
 ];
 
 @NgModule({

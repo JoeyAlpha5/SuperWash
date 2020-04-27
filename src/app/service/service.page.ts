@@ -39,14 +39,14 @@ export class ServicePage implements OnInit {
     this.vat_plus_total = 0;
     this.selected_service_price = [];
     this.selected_services = [];
-    this.auth.auth.onAuthStateChanged(user=>{
-      if(user){
-        this.userCollection.doc(user.email).valueChanges().subscribe(x=>{
-          this.user_value = x;
-          this.user_fullname = this.user_value.fullname;
-        });
-      }
-    });
+    // this.auth.auth.onAuthStateChanged(user=>{
+    //   if(user){
+    //     this.userCollection.doc(user.email).valueChanges().subscribe(x=>{
+    //       this.user_value = x;
+    //       this.user_fullname = this.user_value.fullname;
+    //     });
+    //   }
+    // });
     //get services
     this.serviceCollection.valueChanges().subscribe(x=>{
       console.log(x);

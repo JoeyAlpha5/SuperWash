@@ -19,7 +19,9 @@
       <ion-card class="serviceCard" *ngFor="let item of services">
         <ion-card-content>
             <ion-checkbox (ionChange)="selectService($event,item.Price,item.Name)" class="itemCheck" checked="false"></ion-checkbox>
-            <p class="itemName">{{item.Name}}</p>
+            <p class="itemName">{{item.Name}}<br/>
+              <span class="itemServices" *ngIf="item.services != 'none'">({{item.services}})</span>
+            </p>
             <p class="itemprice">R{{item.Price}}</p>
         </ion-card-content>
       </ion-card>

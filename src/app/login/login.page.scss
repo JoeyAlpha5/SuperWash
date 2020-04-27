@@ -23,6 +23,18 @@ div#bottomCont {
     margin-bottom: 20px;
 }
 
+p#passwordReset {
+    color: rgba(0, 0, 0, 0.45);
+    bottom: 0;
+    width: 100%;
+    text-align: -webkit-center;
+    background: rgb(230, 230, 230);
+    padding: 10px 0px 15px;
+    margin: 0;
+    position: absolute;
+    cursor: pointer;
+}
+
 img {
     float: left;
     margin-left: 15px;
