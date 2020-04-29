@@ -1,9 +1,59 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>car-type</ion-title>
-  </ion-toolbar>
-</ion-header>
 
 <ion-content>
+  <div id="mainBody">
+    <ion-progress-bar value="0.25"></ion-progress-bar>
 
+    <div id="bottomCont">
+      <div id="contentContainer">
+        <img src="assets/images/car_main.png"/>
+        <div id="vehicleDetails">
+          <h6>{{ user_fullname }}</h6>
+          <p>Vehice: not set</p>
+          <p>Location: not set</p>
+        </div>
+      </div>
+
+      <h1>Select vehicle: </h1>
+      <p id="serviceOfferedText">Please select a vehicle type</p>
+  
+      <ion-radio-group>
+        <ion-item>
+          <ion-label>Hatchback</ion-label>
+          <ion-radio slot="start" value="Hatchback" (ionFocus)="selctedCar('Hatchback')"></ion-radio>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Sedan</ion-label>
+          <ion-radio slot="start" value="Sedan" (ionFocus)="selctedCar('Sedan')"></ion-radio>
+        </ion-item>
+    
+        <ion-item>
+          <ion-label>SUV</ion-label>
+          <ion-radio slot="start" value="SUV" (ionFocus)="selctedCar('SUV')"></ion-radio>
+        </ion-item>
+
+
+        <ion-item>
+          <ion-label>Mini van</ion-label>
+          <ion-radio slot="start" value="Mini-van" (ionFocus)="selctedCar('Mini-van')"></ion-radio>
+        </ion-item>
+    
+        <ion-item>
+          <ion-label>Truck</ion-label>
+          <ion-radio slot="start" value="Truck" (ionFocus)="selctedCar('Truck')"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+
+
+
+   <ion-item class="divider"></ion-item>
+    <!-- <div id="pricing">
+      <h1>Sub Total: </h1>
+
+      <p>R{{ price }}</p>
+   </div> -->
+    <ion-button expand="block" (click)="continue()">Continue</ion-button>  
+  </div>
+
+  </div>
 </ion-content>

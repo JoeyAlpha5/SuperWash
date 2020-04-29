@@ -21,6 +21,7 @@ export class PaymentPage implements OnInit {
   user_value;
   user_fullname;
   price;
+  vehicle;
   userCollection:AngularFirestoreCollection;
   constructor(db: AngularFirestore, public loadingController: LoadingController,public alertController: AlertController, public auth: AngularFireAuth,private router : Router,private storage: Storage,private http: HttpClient) { 
     this.userCollection = db.collection("users");
@@ -47,14 +48,18 @@ export class PaymentPage implements OnInit {
   }
 
   ionViewDidEnter(){
-    this.auth.auth.onAuthStateChanged(user=>{
-      if(user){
-        this.userCollection.doc(user.email).valueChanges().subscribe(x=>{
-          this.user_value = x;
-          this.user_fullname = this.user_value.fullname;
-        });
-      }
-    });
+    // this.auth.auth.onAuthStateChanged(user=>{
+    //   if(user){
+    //     this.userCollection.doc(user.email).valueChanges().subscribe(x=>{
+    //       this.user_value = x;
+    //       this.user_fullname = this.user_value.fullname;
+    //     });
+    //   }
+    // });
+
+    this.storage.get("vehicle_type").then(vehicle=>{
+      this.vehicle = vehicle;
+    })
 
     this.storage.get("price").then(price=>{
       this.price = price;

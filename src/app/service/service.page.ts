@@ -23,6 +23,7 @@ export class ServicePage implements OnInit {
   sum_of_service = 0;
   vat_amount = 0;
   vat_plus_total = 0;
+  vehicle;
   constructor(db: AngularFirestore, public loadingController: LoadingController,public alertController: AlertController, public auth: AngularFireAuth,private router : Router,private storage: Storage) { 
     this.serviceCollection = db.collection("services");
     this.userCollection = db.collection("users");
@@ -33,7 +34,11 @@ export class ServicePage implements OnInit {
 
   ionViewDidEnter(){
     //get user details
-    this.storage.clear();
+    this.storage.get("vehicle_type").then(vehicle=>{
+      this.vehicle = vehicle;
+    })
+    // this.storage.clear();
+    this.storage.remove("price");
     this.sum_of_service = 0;
     this.vat_amount = 0;
     this.vat_plus_total = 0;

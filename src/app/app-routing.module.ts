@@ -40,6 +40,14 @@ const routes: Routes = [
     path: 'car-type',
     loadChildren: () => import('./car-type/car-type.module').then( m => m.CarTypePageModule)
   },
+  {
+    path: 'requests',
+    loadChildren: () => import('./requests/requests.module').then( m => m.RequestsPageModule)
+  },
+  {
+    path: 'confirm-request',
+    loadChildren: () => import('./confirm-request/confirm-request.module').then( m => m.ConfirmRequestPageModule)
+  },
 ];
 
 @NgModule({

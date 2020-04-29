@@ -17,6 +17,7 @@ export class LoginPage implements OnInit {
   ngOnInit() {
   }
 
+
   signIn(){
     if(this.email == "" || this.password == ""){
       this.showError("Please complete the sign in form")
@@ -39,6 +40,10 @@ export class LoginPage implements OnInit {
         this.router.navigateByUrl('home');
       }
     });
+  }
+
+  passwordReset(){
+    this.router.navigateByUrl('password-reset');
   }
 
 

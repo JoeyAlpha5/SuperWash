@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
 import { HttpClient } from '@angular/common/http';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Observable } from 'rxjs';
 declare var google;
 
 
@@ -20,27 +21,66 @@ export class ConfirmedPage implements OnInit {
   user_value;
   user_fullname;
   price;
+  vehicle;
+  mobile = "";
+  name = "";
+  washers = []
   userCollection:AngularFirestoreCollection;
+  washerCollection:AngularFirestoreCollection;
+  latlng;
+  url = "https://jalome-api-python.herokuapp.com/distance-matrix/";
+  washer_details:Observable<any>;
   constructor(db: AngularFirestore, public loadingController: LoadingController,public alertController: AlertController, public auth: AngularFireAuth,private router : Router,private geolocation: Geolocation,private storage: Storage,private http: HttpClient) { 
     this.userCollection = db.collection("users");
-
+    this.washerCollection = db.collection("washers");
   }
 
   ngOnInit() {
   }
 
+
+  confirmPage(){
+    var get_washers = this.washerCollection.valueChanges().subscribe(washers=>{
+        // console.log(washers);
+        this.washers = [];
+        for(let u = 0; u < washers.length; u++){
+            if(washers[u].washer_request == "none"){
+                // console.log("driver",washers[u]);
+                this.washers.push(washers[u]);
+            }
+        }
+        //get user details
+        this.auth.auth.onAuthStateChanged(user=>{
+            console.log(user.email);
+            this.userCollection.doc(user.email).valueChanges().subscribe(user_data=>{
+                this.name = user_data["fullname"];
+                this.mobile = user_data["mobile"];
+            });
+          });
+
+        this.washer_details = this.http.get(this.url, {params:{"type":"getDriver","user_fullname":this.name,"user_mobile":this.mobile ,"drivers":JSON.stringify(this.washers),"location":JSON.stringify(this.latlng)} });
+
+        this.washer_details.subscribe(nearest_washer=>{
+            // console.log(nearest_washer.Response.email);
+            var nearest_washer_sub = this.userCollection.doc(nearest_washer.Response.email).valueChanges().subscribe(w=>{
+                console.log("nearest washer id ", w["device_id"]);
+                this.sendreq(get_washers, nearest_washer_sub);
+
+            })
+        });
+    })
+  }
+
+
+  sendreq(washers, nearest_washer_sub){
+      washers.unsubscribe();
+      nearest_washer_sub.unsubscribe();
+      console.log("unsubscribed");
+  }
+
   ionViewDidEnter(){
     //get username
     this.location = "";
-    this.auth.auth.onAuthStateChanged(user=>{
-      if(user){
-        this.userCollection.doc(user.email).valueChanges().subscribe(x=>{
-          this.user_value = x;
-          this.user_fullname = this.user_value.fullname;
-        });
-      }
-    });
-
     //get price of services
     this.storage.get("price").then(price=>{
       this.price = price;
@@ -52,6 +92,11 @@ export class ConfirmedPage implements OnInit {
       this.setMap(location);
     });
 
+    //vehicle type
+    this.storage.get("vehicle_type").then(vehicle=>{
+        this.vehicle = vehicle;
+    })
+
   }
 
 
@@ -61,7 +106,7 @@ export class ConfirmedPage implements OnInit {
       console.log(resp.coords.latitude, resp.coords.longitude);
       var directionsService = new google.maps.DirectionsService();
       var directionsDisplay = new google.maps.DirectionsRenderer();
-      // this.latlng = {lat:resp.coords.latitude,lng:resp.coords.longitude};
+      this.latlng = {lat:resp.coords.latitude,lng:resp.coords.longitude};
       var pyrmont = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
       var map = new google.maps.Map(document.getElementById('map'), {
           center: pyrmont,
