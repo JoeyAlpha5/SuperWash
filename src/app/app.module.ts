@@ -10,11 +10,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { IonicStorageModule } from '@ionic/storage';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { OneSignal } from '@ionic-native/onesignal/ngx';
+import { CallNumber } from '@ionic-native/call-number/ngx';
 //firebase
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { HttpClientModule } from '@angular/common/http';
+import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 
 
 
@@ -36,6 +38,8 @@ import { HttpClientModule } from '@angular/common/http';
     SplashScreen,
     OneSignal,
     Geolocation,
+    CallNumber,
+    Diagnostic,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

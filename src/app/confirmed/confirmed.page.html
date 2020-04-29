@@ -34,7 +34,11 @@
 
       <p>R{{ price }}</p>
    </div>
-    <ion-button expand="block" (click)="confirmPage()">Confirm</ion-button> <br/> 
+    <div id="cashBox" style="text-align: left;margin-left: 15px;color: black;">
+      <ion-label>Cash</ion-label>
+      <ion-checkbox disabled="true" checked="true"></ion-checkbox>
+    </div>
+    <ion-button expand="block" (click)="confirmPage('none')">Confirm<ion-spinner *ngIf="spinner == true"></ion-spinner></ion-button>
     <div id="buttonSeperator"></div>
     <ion-button expand="block" color="secondary" (click)="homePage()">Cancel</ion-button>  
   </div>

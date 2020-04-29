@@ -16,7 +16,7 @@ import { HttpClient } from '@angular/common/http';
 export class PaymentPage implements OnInit {
   places = [];
   destination = "";
-  location;
+  location = "";
   places_data;
   user_value;
   user_fullname;
@@ -68,11 +68,15 @@ export class PaymentPage implements OnInit {
 
 
   confirmPage(){
-    this.storage.set("location", this.location).then(()=>{
-      this.router.navigateByUrl('confirmed');
-    }).catch(err=>{
-      this.showError(err);
-    });
+    if(this.location == ""){
+      this.showError("Please enter a location");
+    }else{
+      this.storage.set("location", this.location).then(()=>{
+        this.router.navigateByUrl('confirmed');
+      }).catch(err=>{
+        this.showError(err);
+      });
+    }
   }
 
 
