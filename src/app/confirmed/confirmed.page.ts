@@ -86,6 +86,9 @@ export class ConfirmedPage implements OnInit {
                     //     this.sendreq(nearest_washer_sub,nearest_washer.Response.email);
         
                     // })
+                },err=>{
+                    this.spinner = false;
+                    this.showError("Networking error");
                 });
             });
           });
@@ -98,27 +101,29 @@ export class ConfirmedPage implements OnInit {
     //   nearest_washer_sub.unsubscribe();
     //   req.unsubscribe();
     clearInterval(this.interval);
+    this.interval = setInterval(async ()=>{
+        console.log("waiting for driver");
+        this.interval_counter--;
+        console.log(this.interval_counter);
+        if(this.interval_counter == 0){
+            this.interval_counter = 20;
+            clearInterval(this.interval);
+            washer_count.unsubscribe();
+            this.getNextWasher(nearest_washer_email,washer_count);
+        }
+
+    }, 1000);
       console.log("unsubscribed");
       var washer_count = this.washerCollection.doc(nearest_washer_email).valueChanges().subscribe(washer=>{
-        this.interval = setInterval(async ()=>{
-            console.log("waiting for driver");
-            this.interval_counter--;
-            console.log(this.interval_counter);
-            if(this.interval_counter == 0){
-                this.interval_counter = 20;
+        // clearInterval(this.interval);
+        if(washer["washer_request"] == this.name){
+            clearInterval(this.interval);
+            washer_count.unsubscribe();
+            console.log("request accepted")
+            this.router.navigate(['/requests']).then(()=>{
                 clearInterval(this.interval);
-                washer_count.unsubscribe();
-                this.getNextWasher(nearest_washer_email,washer_count);
-            }
-            if(washer["washer_request"] == this.name){
-                clearInterval(this.interval);
-                washer_count.unsubscribe();
-                console.log("request accepted")
-                // this.router.navigate(['/requests']).then(()=>{
-                //     clearInterval(this.interval);
-                // });
-            }
-        }, 1000);
+            });
+        }
       });
   }
 

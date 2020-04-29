@@ -46,8 +46,10 @@ export class RequestsPage implements OnInit {
 
   ionViewDidEnter(){
     this.auth.auth.onAuthStateChanged(user=>{
+      console.log(user.email);
       this.userCollection.doc(user.email).ref.get().then(x=>{
         console.log(x.data());
+        console.log(x);
         this.user_list = x.data();
         if("washer" in this.user_list && this.user_list.washer == true){
           console.log(this.user_list.washer);
@@ -64,7 +66,7 @@ export class RequestsPage implements OnInit {
   washer(){
     this.display_home = false;
     this.auth.auth.onAuthStateChanged(user=>{
-      this.userCollection.doc(user.email).ref.get().then(x=>{
+      this.washerCollection.doc(user.email).ref.get().then(x=>{
         var data = x.data();
         this.washer_email = data["email"];
         if(data["washer_request"] != "none"){
@@ -94,7 +96,7 @@ export class RequestsPage implements OnInit {
       console.log(x.docs);
       console.log(x.docs[0].data())
       for(var w = 0; w < x.docs.length; w++){
-        if(x[w].washer_request == name){
+        if(x.docs[w].data().washer_request == name){
           console.log(x.docs[w]);
           this.email = x.docs[w].data().email;
           this.mobile = x.docs[w].data().mobile;
@@ -144,6 +146,7 @@ export class RequestsPage implements OnInit {
     this.storage.remove("passenger_fullname");
     console.log(this.user_list);
     this.washerCollection.doc(this.washer_email).update({washer_request:"none"});
+    this.route.navigate(['/home']);
   }
 
 
@@ -171,7 +174,7 @@ export class RequestsPage implements OnInit {
     const actionSheet = await this.actionSheetController.create({
       header: 'Report',
       buttons: [{
-        text: 'Report driver for poor service',
+        text: 'Report washer for poor service',
         role: 'destructive',
         icon: 'thumbs-down',
         handler: () => {

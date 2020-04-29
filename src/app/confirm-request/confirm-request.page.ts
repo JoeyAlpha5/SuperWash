@@ -35,7 +35,7 @@ export class ConfirmRequestPage implements OnInit {
     this.storage.get("passenger_fullname").then(fn=>{
       this.fullname = fn;
       console.log("fullname is ", fn);
-      this.presentalert();
+      // this.presentalert();
       this.storage.remove("passenger_fullname");
     });
     this.storage.get("passenger_mobile").then(mb=>{
