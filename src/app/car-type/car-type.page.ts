@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./car-type.page.scss'],
 })
 export class CarTypePage implements OnInit {
-
+  
   value;
   constructor(private storage: Storage,public alertController: AlertController,private router : Router) { }
 

@@ -11,19 +11,25 @@ import { IonicStorageModule } from '@ionic/storage';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { OneSignal } from '@ionic-native/onesignal/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
+import { FormsModule } from '@angular/forms';
 //firebase
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { HttpClientModule } from '@angular/common/http';
 import { Diagnostic } from '@ionic-native/diagnostic/ngx';
+import { ProfileEditPage } from './profile-edit/profile-edit.page';
+
+//font-awesome
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { fas } from '@fortawesome/free-solid-svg-icons';
 
 
 
 
 @NgModule({
-  declarations: [AppComponent],
-  entryComponents: [],
+  declarations: [AppComponent,ProfileEditPage ],
+  entryComponents: [ProfileEditPage ],
   imports: [
     BrowserModule, 
     IonicModule.forRoot(), AppRoutingModule,
@@ -31,7 +37,9 @@ import { Diagnostic } from '@ionic-native/diagnostic/ngx';
     AngularFirestoreModule,
     IonicStorageModule.forRoot(),
     AngularFireAuthModule,
-    HttpClientModule
+    HttpClientModule,
+    FontAwesomeModule,
+    FormsModule
   ],
   providers: [
     StatusBar,
@@ -44,4 +52,9 @@ import { Diagnostic } from '@ionic-native/diagnostic/ngx';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+  
+	constructor(library: FaIconLibrary) { 
+		library.addIconPacks(fas);
+	}
+}

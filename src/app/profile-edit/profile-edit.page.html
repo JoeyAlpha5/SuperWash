@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-icon id="backIcon" (click)="dismiss()" slot="start" name="chevron-back-outline"></ion-icon>
+    <ion-title>Edit profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <div id="mainBody">
+
+    <ion-item>
+      <ion-label>Fullname</ion-label>
+      <ion-input [(ngModel)]="fullname"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Mobile</ion-label>
+      <ion-input [(ngModel)]="mobile"></ion-input>
+    </ion-item>
+
+
+    <ion-item>
+      <ion-label>Email</ion-label>
+      <ion-input disabled="true" [(ngModel)]="email"></ion-input>
+    </ion-item>
+
+    <ion-button (click)="save()" expand="block">Save</ion-button>
+  </div>
+</ion-content>
+

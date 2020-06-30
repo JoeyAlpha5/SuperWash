@@ -8,8 +8,8 @@
         <img src="assets/images/car_main.png"/>
         <div id="vehicleDetails">
           <h6>{{ user_fullname }}</h6>
-          <p>Vehice: not set</p>
-          <p>Location: not set</p>
+          <!-- <p>Vehice: not set</p>
+          <p>Location: not set</p> -->
         </div>
       </div>
 
@@ -20,27 +20,34 @@
         <ion-item>
           <ion-label>Hatchback</ion-label>
           <ion-radio slot="start" value="Hatchback" (ionFocus)="selctedCar('Hatchback')"></ion-radio>
+          <fa-icon icon="car-side"></fa-icon>
+          
         </ion-item>
 
         <ion-item>
           <ion-label>Sedan</ion-label>
           <ion-radio slot="start" value="Sedan" (ionFocus)="selctedCar('Sedan')"></ion-radio>
+          <fa-icon icon="car-alt"></fa-icon>
+
         </ion-item>
     
         <ion-item>
           <ion-label>SUV</ion-label>
           <ion-radio slot="start" value="SUV" (ionFocus)="selctedCar('SUV')"></ion-radio>
+          <fa-icon icon="bus"></fa-icon>
         </ion-item>
 
 
         <ion-item>
           <ion-label>Mini van</ion-label>
           <ion-radio slot="start" value="Mini-van" (ionFocus)="selctedCar('Mini-van')"></ion-radio>
+          <fa-icon icon="shuttle-van"></fa-icon>
         </ion-item>
     
         <ion-item>
           <ion-label>Truck</ion-label>
           <ion-radio slot="start" value="Truck" (ionFocus)="selctedCar('Truck')"></ion-radio>
+          <fa-icon icon="truck"></fa-icon>
         </ion-item>
       </ion-radio-group>
 

@@ -48,6 +48,11 @@ const routes: Routes = [
     path: 'confirm-request',
     loadChildren: () => import('./confirm-request/confirm-request.module').then( m => m.ConfirmRequestPageModule)
   },
+  {
+    path: 'profile-edit',
+    loadChildren: () => import('./profile-edit/profile-edit.module').then( m => m.ProfileEditPageModule)
+  },
+
 ];
 
 @NgModule({

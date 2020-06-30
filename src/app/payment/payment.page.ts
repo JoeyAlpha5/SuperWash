@@ -71,11 +71,18 @@ export class PaymentPage implements OnInit {
     if(this.location == ""){
       this.showError("Please enter a location");
     }else{
-      this.storage.set("location", this.location).then(()=>{
-        this.router.navigateByUrl('confirmed');
-      }).catch(err=>{
-        this.showError(err);
+
+      var url = "http://jalome-api-python.herokuapp.com/distance-matrix/geo/";
+      this.http.get(url, {params:{"destination":this.location} }).subscribe(x=>{
+        console.log(x);
+        this.storage.set("location", {coords:x,name:this.location}).then(()=>{
+          this.router.navigateByUrl('confirmed');
+        }).catch(err=>{
+          this.showError(err);
+        });
       });
+
+
     }
   }
 

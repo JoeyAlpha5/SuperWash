@@ -9,16 +9,16 @@
         <div id="vehicleDetails">
           <h6>{{ user_fullname }}</h6>
           <p>Vehice: {{vehicle}}</p>
-          <p>Location: not set</p>
+          <!-- <p>Location: not set</p> -->
         </div>
       </div>
 
       <h1>Select location: </h1>
-      <p id="serviceOfferedText">Please select a location</p>
+      <p id="serviceOfferedText">Car wash location</p>
 
       <div id="destination"> 
         <ion-item class="itemBlock">
-          <ion-label position="floating">Car Wash Location</ion-label>
+          <ion-label position="floating">Please enter your location here</ion-label>
           <ion-input id="destinationInput" (ionChange)="autocomplete()"  [(ngModel)]="location" ></ion-input>
         </ion-item>
       </div>

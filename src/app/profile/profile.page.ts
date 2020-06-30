@@ -4,6 +4,8 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { AlertController } from '@ionic/angular';
 import { LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
+import { ProfileEditPage } from '../profile-edit/profile-edit.page';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
@@ -15,7 +17,7 @@ export class ProfilePage implements OnInit {
   email;
   user_value;
   userCollection:AngularFirestoreCollection;
-  constructor(db: AngularFirestore, public loadingController: LoadingController,public alertController: AlertController, public auth: AngularFireAuth,private router : Router) {
+  constructor(public modalController: ModalController,db: AngularFirestore, public loadingController: LoadingController,public alertController: AlertController, public auth: AngularFireAuth,private router : Router) {
     this.userCollection = db.collection("users");
    }
 
@@ -49,5 +51,20 @@ export class ProfilePage implements OnInit {
         }
       });
   }
+
+
+  async presentModal() {
+    const modal = await this.modalController.create({
+      component: ProfileEditPage,
+      cssClass: 'my-custom-class',
+      componentProps: {
+        'fullname': this.fullname,
+        'mobile': this.mobile,
+        'email': this.email,
+      }
+    });
+    return await modal.present();
+  }
+
 
 }
