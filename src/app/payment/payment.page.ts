@@ -72,7 +72,7 @@ export class PaymentPage implements OnInit {
       this.showError("Please enter a location");
     }else{
 
-      var url = "http://jalome-api-python.herokuapp.com/distance-matrix/geo/";
+      var url = "https://jalome-api-python.herokuapp.com/distance-matrix/geo/";
       this.http.get(url, {params:{"destination":this.location} }).subscribe(x=>{
         console.log(x);
         this.storage.set("location", {coords:x,name:this.location}).then(()=>{

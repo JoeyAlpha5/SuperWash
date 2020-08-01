@@ -51,7 +51,11 @@ const routes: Routes = [
   {
     path: 'profile-edit',
     loadChildren: () => import('./profile-edit/profile-edit.module').then( m => m.ProfileEditPageModule)
+  },  {
+    path: 'paygate',
+    loadChildren: () => import('./paygate/paygate.module').then( m => m.PaygatePageModule)
   },
+
 
 ];
 

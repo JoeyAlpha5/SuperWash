@@ -31,6 +31,7 @@ export class RequestsPage implements OnInit {
   photo;
   plate;
   email;
+  price;
   userCollection:AngularFirestoreCollection;
   washerCollection:AngularFirestoreCollection;
   washer_email;
@@ -59,6 +60,9 @@ export class RequestsPage implements OnInit {
           this.notWasher(this.user_list.fullname);
         }
       });
+    });
+    this.storage.get("price").then(price=>{
+      this.price = price;
     });
   }
 

@@ -36,7 +36,7 @@ export class AppComponent {
     this.auth.auth.onAuthStateChanged(user=>{
       if(user){
         console.log(user);
-        this.router.navigateByUrl('home');
+        // this.router.navigateByUrl('home');
       }else{
         this.router.navigateByUrl('main');
       }
@@ -79,6 +79,7 @@ export class AppComponent {
       this.storage.set("passenger_fullname", re.Response.fullname);
       this.storage.set("passenger_mobile", re.Response.mobile);
       this.storage.set("destination", re.Response.destination);
+      this.storage.set("price", re.Response.price);
       loading.dismiss();
       this.router.navigate(['/confirm-request']);
     },err=>{

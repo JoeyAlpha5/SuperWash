@@ -5,11 +5,13 @@ import { AlertController } from '@ionic/angular';
 import { LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { ToastController } from '@ionic/angular';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { PaygatePage } from '../paygate/paygate.page';
+import { ModalController } from '@ionic/angular';
+
 declare var google;
 
 
@@ -20,9 +22,11 @@ declare var google;
 })
 export class ConfirmedPage implements OnInit {
   location;
+  disable_payment_options = true;
+  payment_mode = "none";
   user_value;
   user_fullname;
-  price;
+  price = 0;
   vehicle;
   mobile = "";
   name = "";
@@ -35,7 +39,7 @@ export class ConfirmedPage implements OnInit {
   interval;
   url = "https://jalome-api-python.herokuapp.com/distance-matrix/";
   washer_details:Observable<any>;
-  constructor(public toastController: ToastController,db: AngularFirestore, public loadingController: LoadingController,public alertController: AlertController, public auth: AngularFireAuth,private router : Router,private geolocation: Geolocation,private storage: Storage,private http: HttpClient) { 
+  constructor(public modalController: ModalController,public toastController: ToastController,db: AngularFirestore, public loadingController: LoadingController,public alertController: AlertController, public auth: AngularFireAuth,private router : Router,private geolocation: Geolocation,private storage: Storage,private http: HttpClient) { 
     this.userCollection = db.collection("users");
     this.washerCollection = db.collection("washers");
   }
@@ -44,7 +48,44 @@ export class ConfirmedPage implements OnInit {
   }
 
 
+  paygate_initialize(){
+      //price is supposed to be one long number for the paygate api to work
+    this.auth.user.subscribe(re=>{
+        var api_price = this.price.toFixed(2).split(".").join("");
+        // console.log(api_price);
+        var url = 'https://localhost/Quikwash/index.php?AMOUNT='+api_price+"&EMAIL="+re.email;
+        var headers = new HttpHeaders();
+        headers.append("Accept", 'application/json');
+        headers.append('Content-Type', 'application/json');
+        headers.append('Access-Control-Allow-Origin', '*');
+        this.http.post(url,{headers:headers}).subscribe(res=>{
+          console.log("response ",res.toString());
+          this.showPayGate(res.toString());
+        });
+    });
+  }
+
+  payment_method(mode){
+      this.payment_mode = mode;
+  }
+
+  async showPayGate(result){
+    var req_array = result.split("=");
+    var pay_req = req_array[2].split("&")[0].toString();
+    var checksum = req_array[4];
+    const modal = await this.modalController.create({
+    component: PaygatePage,
+    componentProps: {
+        'payment_req': pay_req,
+        'checksum':checksum,
+        }
+    });
+    return await modal.present();
+}
+  
+
   confirmPage(new_washers){
+    this.storage.set("price", this.price);
     this.spinner = true;
     this.washerCollection.ref.get().then(x=>{
         console.log(x.docs);
@@ -73,7 +114,7 @@ export class ConfirmedPage implements OnInit {
             // var req = this.userCollection.doc(user.email).valueChanges().subscribe(user_data=>{
                 this.name = user_data["fullname"];
                 this.mobile = user_data["mobile"];
-                this.washer_details = this.http.get(this.url, {params:{"type":"getDriver","user_fullname":this.name,"user_mobile":this.mobile ,"drivers":JSON.stringify(this.washers),"location":JSON.stringify(this.latlng)} });
+                this.washer_details = this.http.get(this.url, {params:{"type":"getDriver","user_fullname":this.name,"user_mobile":this.mobile,"price":this.price ,"drivers":JSON.stringify(this.washers),"location":JSON.stringify(this.latlng)} });
 
                 this.washer_details.subscribe(nearest_washer=>{
                     console.log("nearest washer ",nearest_washer.Response.email);
@@ -178,6 +219,35 @@ export class ConfirmedPage implements OnInit {
     this.storage.get("vehicle_type").then(vehicle=>{
         this.vehicle = vehicle;
     })
+
+    //check for payment return data
+    this.confirmPayGatePayment();
+  }
+
+
+  confirmPayGatePayment(){
+    var url = this.router.url;
+    var url_to_array;
+    var transaction_status;
+    var did_make_payment = url.indexOf("TRANSACTION_STATUS");
+    url_to_array = url.substring(did_make_payment).split("=");
+    //when paygate payment was unsuccessful
+    if(did_make_payment != -1 && url_to_array[1] != 5){
+        this.disable_payment_options = false;
+        console.log("no payment made, transaction status ", url_to_array[1]);
+    }
+    //if paygate payment was successful
+    else if(did_make_payment != -1 && url_to_array[1] == 5){
+        this.disable_payment_options = true;
+        this.payment_mode = 'paygate';
+        console.log("payment made, transaction status ", url_to_array[1]);
+        this.confirmPage('none');
+    }
+    //paygate was not called
+    else{
+        console.log("pagate not called");
+        this.disable_payment_options = false;
+    }
 
   }
 

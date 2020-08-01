@@ -19,6 +19,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { HttpClientModule } from '@angular/common/http';
 import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 import { ProfileEditPage } from './profile-edit/profile-edit.page';
+import { PaygatePage } from './paygate/paygate.page';
 
 //font-awesome
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
@@ -28,8 +29,8 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 
 
 @NgModule({
-  declarations: [AppComponent,ProfileEditPage ],
-  entryComponents: [ProfileEditPage ],
+  declarations: [AppComponent,ProfileEditPage,PaygatePage ],
+  entryComponents: [ProfileEditPage,PaygatePage ],
   imports: [
     BrowserModule, 
     IonicModule.forRoot(), AppRoutingModule,

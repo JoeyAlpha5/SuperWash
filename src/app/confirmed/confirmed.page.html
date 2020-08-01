@@ -34,11 +34,32 @@
 
       <p>R{{ price }}</p>
    </div>
-    <div id="cashBox" style="text-align: left;margin-left: 15px;color: black;">
-      <ion-label>Cash</ion-label>
-      <ion-checkbox disabled="true" checked="true"></ion-checkbox>
+    <div id="cashBox">
+      <ion-list id="list">
+        <ion-radio-group value="biff">
+          <ion-list-header>
+            <ion-label>Select payment method</ion-label>
+          </ion-list-header>
+      
+          <ion-item>
+            <ion-label>Cash</ion-label>
+            <ion-radio slot="start" [disabled]="disable_payment_options" value="Cash" (ionFocus)="payment_method('cash')"></ion-radio>
+          </ion-item>
+      
+          <ion-item>
+            <ion-label>Card</ion-label>
+            <ion-radio slot="start" [disabled]="disable_payment_options" value="Card" (ionFocus)="payment_method('card')"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-list>
     </div>
-    <ion-button expand="block" (click)="confirmPage('none')">Confirm<ion-spinner *ngIf="spinner == true"></ion-spinner></ion-button>
+    <div id="cardBox">
+      <div id="paygateLogo">
+        <img src="assets/images/payment.jpeg">
+      </div>
+    </div>
+    <ion-button color="tertiary" *ngIf="payment_mode == 'card'" expand="block" (click)="paygate_initialize()">Continue</ion-button>
+    <ion-button *ngIf="payment_mode == 'cash' || payment_mode=='paygate' " expand="block" (click)="confirmPage('none')">Confirm<ion-spinner *ngIf="spinner == true"></ion-spinner></ion-button>
     <div id="buttonSeperator"></div>
     <ion-button expand="block" color="secondary" (click)="homePage()">Cancel</ion-button>  
   </div>

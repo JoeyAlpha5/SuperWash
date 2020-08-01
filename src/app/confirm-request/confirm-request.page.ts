@@ -26,6 +26,9 @@ export class ConfirmRequestPage implements OnInit {
   constructor(private route: Router,private location: Location,private statusBar: StatusBar,private menu: MenuController,private storage: Storage,private geolocation: Geolocation,private alert: AlertController,public loadingController: LoadingController,db: AngularFirestore,private http: HttpClient,private platform: Platform,public auth: AngularFireAuth) { 
     this.userCollection = db.collection("users");
     this.washerCollection = db.collection("washers");
+    this.platform.backButton.subscribeWithPriority(999, ()=>{
+      console.log("Back button disabled");
+    });
   }
 
   ngOnInit() {
@@ -53,7 +56,7 @@ export class ConfirmRequestPage implements OnInit {
     this.storage.remove("passenger_fullname");
     const alert = await this.alert.create({
         header: 'Confirm Request',
-        message: 'A user has requested a ride.',
+        message: this.fullname + ' has requested a car wash.',
         buttons: [
             {
                 text: 'Reject',

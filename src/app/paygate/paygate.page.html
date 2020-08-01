@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-icon id="backIcon" slot="start" (click)="dismiss()" name="chevron-back-outline"></ion-icon>
+    <ion-title id="paget-title">Paygate Secure Payment</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div id="mainBody">
+    <form name="form" id="form" target="_top" action="https://secure.paygate.co.za/payweb3/process.trans" method="POST" >
+      <input type="hidden" id="pay_req_id" name="PAY_REQUEST_ID" value="{{payment_req}}">
+      <input type="hidden" name="CHECKSUM" value="{{checksum}}">
+      <!-- <input type="submit"> -->
+  </form>
+  </div>
+</ion-content>
