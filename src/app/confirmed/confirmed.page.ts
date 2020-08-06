@@ -26,7 +26,7 @@ export class ConfirmedPage implements OnInit {
   payment_mode = "none";
   user_value;
   user_fullname;
-  price = 0;
+  price;
   vehicle;
   mobile = "";
   name = "";
@@ -53,7 +53,7 @@ export class ConfirmedPage implements OnInit {
     this.auth.user.subscribe(re=>{
         var api_price = this.price.toFixed(2).split(".").join("");
         // console.log(api_price);
-        var url = 'https://localhost/Quikwash/index.php?AMOUNT='+api_price+"&EMAIL="+re.email;
+        var url = 'https://www.quikwash.co.za/api/api.php?AMOUNT='+api_price+"&EMAIL="+re.email;
         var headers = new HttpHeaders();
         headers.append("Accept", 'application/json');
         headers.append('Content-Type', 'application/json');
