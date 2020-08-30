@@ -63,19 +63,28 @@ export class ServicePage implements OnInit {
 
   selectService(service,Price,Name){
     //if it's checked
-    console.log(service.target.checked);
-    if(service.target.checked == true){
-      this.selected_services.push(Name);
-      this.selected_service_price.push(parseInt(Price));
-      this.calculateTotal();
+    this.selected_services = [];
+    this.selected_service_price = [];
+    this.selected_services.push(Name);
+    this.selected_service_price.push(parseInt(Price));
+    this.calculateTotal();
+    console.group("service detailes");
+    console.log("Price ", Price);
+    console.log("Name ", Name);
+    console.groupEnd();
+    // console.log(service.target.checked);
+    // if(service.target.checked == true){
+    //   this.selected_services.push(Name);
+    //   this.selected_service_price.push(parseInt(Price));
+    //   this.calculateTotal();
 
-      //if it exists
-    }else{
-      var name_index = this.selected_services.indexOf(Name);
-      this.selected_services.splice(name_index,1);
-      this.selected_service_price.splice(name_index,1);
-      this.calculateTotal();
-    }
+    //   //if it exists
+    // }else{
+    //   var name_index = this.selected_services.indexOf(Name);
+    //   this.selected_services.splice(name_index,1);
+    //   this.selected_service_price.splice(name_index,1);
+    //   this.calculateTotal();
+    // }
   }
 
   calculateTotal(){

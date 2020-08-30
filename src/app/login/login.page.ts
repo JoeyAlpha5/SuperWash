@@ -19,8 +19,12 @@ export class LoginPage implements OnInit {
 
 
   signIn(){
-    if(this.email == "" || this.password == ""){
-      this.showError("Please complete the sign in form")
+    if(this.email == ""){
+      this.showError("Please enter your email address");
+    }
+    
+    else if(this.password == ""){
+      this.showError("Please enter your password");
     }else{
       //sing in
       this.auth.auth.signInWithEmailAndPassword(this.email,this.password).catch(err=>{
@@ -48,9 +52,15 @@ export class LoginPage implements OnInit {
 
 
   async showError(err){
+    if(err == "Error: The email address is badly formatted."){
+      err = "The email address is badly formatted.<br><br> Email address must follow the following format i.e. jsmith@example.com";
+    }else if(err == "Error: There is no user record corresponding to this identifier. The user may have been deleted."){
+      err = "The user details provided are incorrect.";
+    }
+
     const alert = await this.alertController.create({
-      header: 'Registration error',
-      subHeader: 'error message:',
+      header: 'Unable to login',
+      // subHeader: 'error message:',
       message: err,
       buttons: ['OK']
     });

@@ -8,7 +8,7 @@
         <img src="assets/images/car_main.png"/>
         <div id="vehicleDetails">
           <h6>{{user_fullname}}</h6>
-          <p>Vehice: {{vehicle}}</p>
+          <!-- <p>Vehice: {{vehicle}}</p> -->
           <!-- <p>Location: not set</p> -->
         </div>
       </div>
@@ -16,15 +16,21 @@
       <h1>Select services: </h1>
       <p id="serviceOfferedText">Below are the services on offer</p>
 
-      <ion-card class="serviceCard" *ngFor="let item of services">
+      <ion-radio-group>
+        <ion-item *ngFor="let item of services">
+          <ion-radio slot="start" value="{{item.Name}}" (ionFocus)="selectService($event,item.Price,item.Name)"></ion-radio>
+          <p class="itemName">{{item.Name}}<br/>
+            <span class="itemServices" *ngIf="item.services != 'none'">({{item.services}})</span>
+          </p>
+          <p class="itemprice">R{{item.Price}}</p>
+        </ion-item>
+      </ion-radio-group>
+      <!-- <ion-card class="serviceCard" *ngFor="let item of services">
         <ion-card-content>
             <ion-checkbox (ionChange)="selectService($event,item.Price,item.Name)" class="itemCheck" checked="false"></ion-checkbox>
-            <p class="itemName">{{item.Name}}<br/>
-              <span class="itemServices" *ngIf="item.services != 'none'">({{item.services}})</span>
-            </p>
-            <p class="itemprice">R{{item.Price}}</p>
+
         </ion-card-content>
-      </ion-card>
+      </ion-card> -->
 
      <ion-item class="divider"></ion-item>
      <div id="pricing">

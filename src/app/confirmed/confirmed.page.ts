@@ -475,7 +475,7 @@ export class ConfirmedPage implements OnInit {
   async showError(err){
     const alert = await this.alertController.create({
       header: 'Unable to continue',
-      subHeader: 'error:',
+    //   subHeader: 'error:',
       message: err,
       buttons: ['OK']
     });

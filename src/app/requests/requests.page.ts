@@ -114,7 +114,7 @@ export class RequestsPage implements OnInit {
         }
       }
       if(this.fullName == ""){
-        this.showError("You have no on-going tow truck requests", "No requests");
+        this.showError("You have no on-going car wash requests", "No requests");
       }
 
     });

@@ -28,8 +28,18 @@ export class RegisterPage implements OnInit {
 
   async Register(){
     //validate input
-    if(this.email == "" || this.fullname == "" || this.mobile == "" || this.password == "" || this.confirm_password == ""){
-      this.showError("Please complete the sign up form")
+    if(this.email == "" && this.fullname == "" && this.mobile == "" && this.password == "" && this.confirm_password == ""){
+      this.showError("Please complete the sign up form");
+    }else if(this.email == ""){
+      this.showError("Please a valid email address");
+    }else if(this.fullname == ""){
+      this.showError("Please enter your full name");
+    }else if(this.mobile == ""){
+      this.showError("Please enter a valid phone number");
+    }else if(this.password == ""){
+      this.showError("Please enter a password");
+    }else if(this.confirm_password == ""){
+      this.showError("Please confirm your password");
     }
     else if(this.password != this.confirm_password){
       this.showError("Passwords do not match")
@@ -52,8 +62,8 @@ export class RegisterPage implements OnInit {
 
   async showError(err){
     const alert = await this.alertController.create({
-      header: 'Registration error',
-      subHeader: 'error message:',
+      header: 'Unbale to create account',
+      // subHeader: 'error message:',
       message: err,
       buttons: ['OK']
     });

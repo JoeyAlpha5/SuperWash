@@ -27,8 +27,13 @@ export class PasswordResetPage implements OnInit {
 
 
   async showMsg(err,msg){
+    if(err == "Error: The email address is badly formatted."){
+      err = "The email address is badly formatted.<br><br> Email address must follow the following format i.e. jsmith@example.com";
+    }else if(err == "Error: There is no user record corresponding to this identifier. The user may have been deleted."){
+      err = "No user with the provided email address exists.";
+    }
     const alert = await this.alertController.create({
-      header: msg,
+      header: "Unable to continue",
       // subHeader: 'error message:',
       message: err,
       buttons: ['OK']
