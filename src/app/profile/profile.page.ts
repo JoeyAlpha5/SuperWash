@@ -24,6 +24,10 @@ export class ProfilePage implements OnInit {
   ngOnInit() {
   }
 
+  back(){
+    this.router.navigateByUrl('home');
+  }
+
   ionViewDidEnter(){
     this.auth.auth.onAuthStateChanged(user=>{
       if(user){

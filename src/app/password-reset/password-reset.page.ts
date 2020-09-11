@@ -19,7 +19,7 @@ export class PasswordResetPage implements OnInit {
   confirmReset(){
     this.auth.auth.sendPasswordResetEmail(this.email).then(re=>{
       console.log(re);
-      this.showMsg("Please check your inbox","Email sent");
+      this.showMsg("Password reset link sent. Please check your inbox","Email sent");
     }).catch(err=>{
       this.showMsg(err,"Error");
     });
@@ -33,7 +33,7 @@ export class PasswordResetPage implements OnInit {
       err = "No user with the provided email address exists.";
     }
     const alert = await this.alertController.create({
-      header: "Unable to continue",
+      // header: "Unable to continue",
       // subHeader: 'error message:',
       message: err,
       buttons: ['OK']

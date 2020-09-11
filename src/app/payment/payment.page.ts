@@ -36,7 +36,10 @@ export class PaymentPage implements OnInit {
     var url = "https://jalome-api-python.herokuapp.com/distance-matrix/";
     this.http.get(url, {params:{"type":"getPlaces", "input":this.location} }).subscribe(x=>{
       this.places_data = x;
-      this.places = this.places_data.data;
+      // console.log("length of array ", this.places_data.data.length);
+      if(this.places_data.data.length > 1){
+        this.places = this.places_data.data;
+      }
     });
   }
 

@@ -38,6 +38,7 @@ export class ConfirmedPage implements OnInit {
   interval_counter = 20;
   interval;
   url = "https://jalome-api-python.herokuapp.com/distance-matrix/";
+  no_washer_url = "https://jalome-api-python.herokuapp.com/distance-matrix/no-washer/";
   washer_details:Observable<any>;
   constructor(public modalController: ModalController,public toastController: ToastController,db: AngularFirestore, public loadingController: LoadingController,public alertController: AlertController, public auth: AngularFireAuth,private router : Router,private geolocation: Geolocation,private storage: Storage,private http: HttpClient) { 
     this.userCollection = db.collection("users");
@@ -96,7 +97,8 @@ export class ConfirmedPage implements OnInit {
         if(new_washers == "none"){
             console.log("getting new washers");
             for(let u = 0; u < washers.length; u++){
-                if(washers[u].data().washer_request == "none"){
+                //get washers excluding the default washer.
+                if(washers[u].data().washer_request == "none" && washers[u].data().available == true && washers[u].data().default == false){
                     // console.log("driver",washers[u]);
                     this.washers.push(washers[u].data());
                 }
@@ -180,9 +182,15 @@ export class ConfirmedPage implements OnInit {
         }
     } 
     if(this.washers.length == 0){
-        this.showError("No washers available at the moment");
+        // this.showError("No washers available at the moment, a message has been sent to Quikwash.");
         clearInterval(this.interval);
         this.spinner = false;
+        //send message saying no washer is available
+        this.http.get(this.no_washer_url,{params:{"user_fullname":this.name,"user_mobile":this.mobile,}}).subscribe(re=>{
+            console.log(re);
+        });
+        //allocate default washer
+        this.allocateDefaultWasher();
     }else{
         // clearInterval(this.interval);
         this.confirmPage(this.washers);
@@ -190,6 +198,13 @@ export class ConfirmedPage implements OnInit {
     }
   }
 
+
+  allocateDefaultWasher(){
+    console.log("Allocating default washer");
+    this.washerCollection.doc("default").update({"washer_request":this.name}).then(()=>{
+        this.router.navigate(['/requests']);
+    });
+  }
 
 
     //toast
