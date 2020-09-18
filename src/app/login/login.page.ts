@@ -3,6 +3,7 @@ import { AngularFireAuth } from 'angularfire2/auth'
 import { AlertController } from '@ionic/angular';
 import { LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -12,7 +13,18 @@ export class LoginPage implements OnInit {
 
   password = "";
   email = "";
-  constructor( public loadingController: LoadingController,public alertController: AlertController, public auth: AngularFireAuth,private router : Router) { }
+  admin_array = [];
+  dashboardAdmins:AngularFirestoreCollection;
+  constructor(db: AngularFirestore, public loadingController: LoadingController,public alertController: AlertController, public auth: AngularFireAuth,private router : Router) {
+      //get all the admin emails that can't sign in
+      this.dashboardAdmins = db.collection("dashboardadmins");
+      this.dashboardAdmins.get().subscribe(admins=>{
+        admins.forEach(admin=>{
+          // console.log(admin.id);
+          this.admin_array.push(admin.id);
+        });
+      });
+   }
 
   ngOnInit() {
   }
@@ -25,7 +37,11 @@ export class LoginPage implements OnInit {
     
     else if(this.password == ""){
       this.showError("Please enter your password");
-    }else{
+    }
+    else if(this.admin_array.includes(this.email)){
+      this.showError("Dashboard admins must use a different email to sign in on the app.");
+    }
+    else{
       //sing in
       this.auth.auth.signInWithEmailAndPassword(this.email,this.password).catch(err=>{
         this.showError(err);

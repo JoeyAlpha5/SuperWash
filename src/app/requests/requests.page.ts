@@ -32,6 +32,7 @@ export class RequestsPage implements OnInit {
   plate;
   email;
   price;
+  default;
   userCollection:AngularFirestoreCollection;
   washerCollection:AngularFirestoreCollection;
   washer_email;
@@ -107,6 +108,7 @@ export class RequestsPage implements OnInit {
           this.fullName = x.docs[w].data().fullname;
           this.id_no = x.docs[w].data().driver_id;
           this.photo = x.docs[w].data().image;
+          this.default = x.docs[w].data().default;
           // washers.unsubscribe();
           break;
         }else{
@@ -155,14 +157,24 @@ export class RequestsPage implements OnInit {
 
 
   cancel(){
-    if(this.mobile != undefined && this.mobile != null){
-        console.log(this.mobile);
-        console.log(this.mobile);
-        this.washerCollection.doc(this.email).update({washer_request:"none"});
+    console.log(this.default);
+    //check if the washer is the default washer first
+    if(this.default == true){
+        this.washerCollection.doc('default').update({washer_request:'none'});
         this.http.get(this.url, {params:{"type":"cancelReq", "device_id":this.user_list.device_id} }).subscribe(x=>{  
           this.route.navigate(['/home']);
         });
+    }else{
+        if(this.mobile != undefined && this.mobile != null){
+          console.log(this.mobile);
+          console.log(this.mobile);
+          this.washerCollection.doc(this.email).update({washer_request:"none"});
+          this.http.get(this.url, {params:{"type":"cancelReq", "device_id":this.user_list.device_id} }).subscribe(x=>{  
+            this.route.navigate(['/home']);
+          });
+      }
     }
+
   }
 
   call(mobile){
