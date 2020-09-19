@@ -38,7 +38,7 @@ export class AppComponent {
         console.log(user);
         // this.router.navigateByUrl('home');
       }else{
-        this.router.navigateByUrl('main');
+        // this.router.navigateByUrl('main');
       }
     });
   }

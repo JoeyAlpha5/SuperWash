@@ -14,6 +14,7 @@ export class LoginPage implements OnInit {
   password = "";
   email = "";
   admin_array = [];
+  password_type = 'Password';
   dashboardAdmins:AngularFirestoreCollection;
   constructor(db: AngularFirestore, public loadingController: LoadingController,public alertController: AlertController, public auth: AngularFireAuth,private router : Router) {
       //get all the admin emails that can't sign in
@@ -30,6 +31,10 @@ export class LoginPage implements OnInit {
   }
 
 
+  viewPassword(type){
+    this.password_type = type;
+  }
+
   signIn(){
     if(this.email == ""){
       this.showError("Please enter your email address");
@@ -43,11 +48,18 @@ export class LoginPage implements OnInit {
     }
     else{
       //sing in
-      this.auth.auth.signInWithEmailAndPassword(this.email,this.password).catch(err=>{
-        this.showError(err);
-      }).then(()=>{
-        this.checkUser();
-      });
+      if(this.auth.auth.currentUser.emailVerified){
+          this.auth.auth.signInWithEmailAndPassword(this.email,this.password).catch(err=>{
+            this.showError(err);
+          }).then(()=>{
+            this.checkUser();
+          });
+      }else{
+        this.showError("Please verify your email before using the app");
+        //send a verification
+        this.auth.auth.currentUser.sendEmailVerification();
+      }
+
     }
 
   }
@@ -73,7 +85,6 @@ export class LoginPage implements OnInit {
     }else if(err == "Error: There is no user record corresponding to this identifier. The user may have been deleted."){
       err = "The user details provided are incorrect.";
     }
-
     const alert = await this.alertController.create({
       header: 'Unable to login',
       // subHeader: 'error message:',

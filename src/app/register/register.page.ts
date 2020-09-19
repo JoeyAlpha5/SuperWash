@@ -51,7 +51,10 @@ export class RegisterPage implements OnInit {
           this.showError(err);
         }).then(()=>{
           //go to login page
-          this.router.navigateByUrl('login');
+          this.auth.auth.currentUser.sendEmailVerification().then(x=>{
+            // console.log(x);
+            this.router.navigateByUrl('login');
+          })
         });
       }).catch(err=>{
         this.showError(err);
