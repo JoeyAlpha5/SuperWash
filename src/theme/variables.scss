@@ -11,6 +11,9 @@
   --ion-color-primary-shade: #3F3D56;
   --ion-color-primary-tint: #3F3D56;
 
+  ion-toolbar.in-toolbar.md.hydrated.toolbar-label {
+    --background: #558457;
+  }
   /** secondary **/
   --ion-color-secondary:#3F3D56;
   --ion-color-secondary-rgb: 61, 194, 255;

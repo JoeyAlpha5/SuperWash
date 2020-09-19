@@ -34,18 +34,20 @@ export class AppComponent {
   checkUser(){
     //check if user is signed in
     console.log(this.auth.auth.currentUser);
-    if(this.auth.auth.currentUser == null ){
+    // console.log(this.auth.authState.);
+    // if(this.auth.auth.currentUser == null ){
+    //     this.router.navigateByUrl('main');
+    // }else{
+    //   this.router.navigateByUrl('home');
+    // }
+    this.auth.auth.onAuthStateChanged(user=>{
+      if(user){
+        console.log(user);
+        // this.router.navigateByUrl('home');
+      }else{
         this.router.navigateByUrl('main');
-    }
-
-    // this.auth.auth.onAuthStateChanged(user=>{
-    //   if(user){
-    //     console.log(user);
-    //     // this.router.navigateByUrl('home');
-    //   }else{
-    //     // this.router.navigateByUrl('main');
-    //   }
-    // });
+      }
+    });
   }
 
   setupPush(){

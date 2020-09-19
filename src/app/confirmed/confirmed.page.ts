@@ -85,6 +85,7 @@ export class ConfirmedPage implements OnInit {
   
 
   confirmPage(new_washers){
+    this.presentToast("Locating nearest washer");
     this.storage.set("price", this.price);
     this.spinner = true;
     this.washerCollection.ref.get().then(x=>{
@@ -193,7 +194,7 @@ export class ConfirmedPage implements OnInit {
     }else{
         // clearInterval(this.interval);
         this.confirmPage(this.washers);
-        this.presentToast("Locating nearest driver");
+        this.presentToast("Locating nearest washer");
     }
   }
 
