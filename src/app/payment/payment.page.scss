@@ -23,7 +23,7 @@
 
   .divider{
     height: 1px;
-    margin-top: 40%;
+    margin-top: 1%;
     --background: transparent;
   }
 
@@ -120,4 +120,12 @@ div#pricing {
   width: 100%;
   height: 40px;
   float: left;
+}
+
+
+#mapSelection{
+  width: 99%;
+  height: 341px;
+  background: #f7f7f7;
+  margin-top: 20px;
 }

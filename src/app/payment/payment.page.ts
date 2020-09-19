@@ -6,6 +6,8 @@ import { LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
 import { HttpClient } from '@angular/common/http';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+declare var google;
 
 
 @Component({
@@ -23,7 +25,7 @@ export class PaymentPage implements OnInit {
   price;
   vehicle;
   userCollection:AngularFirestoreCollection;
-  constructor(db: AngularFirestore, public loadingController: LoadingController,public alertController: AlertController, public auth: AngularFireAuth,private router : Router,private storage: Storage,private http: HttpClient) { 
+  constructor(private geolocation: Geolocation,db: AngularFirestore, public loadingController: LoadingController,public alertController: AlertController, public auth: AngularFireAuth,private router : Router,private storage: Storage,private http: HttpClient) { 
     this.userCollection = db.collection("users");
   }
 
@@ -50,7 +52,36 @@ export class PaymentPage implements OnInit {
     this.places = [];
   }
 
+
+  getDefaultLocation(){
+    this.geolocation.getCurrentPosition().then((resp)=>{
+      console.log(resp.coords.latitude, resp.coords.longitude);
+      this.http.get('https://maps.googleapis.com/maps/api/geocode/json?address='+resp.coords.latitude+','+resp.coords.longitude+'&key=AIzaSyD7FkGPNnb-TnwiweIfGPgVGy3N3A0O6Mk').subscribe(re=>{
+        console.log(re['results'][0]['formatted_address']);
+        this.location = re['results'][0]['formatted_address'];
+        //set default location
+        var map = new google.maps.Map(document.getElementById('mapSelection'), {
+          center: {lat: resp.coords.latitude, lng: resp.coords.longitude},
+          zoom: 15,
+          zoomControl: false,
+          mapTypeControl: false,
+          scaleControl: false,
+          streetViewControl: false,
+          rotateControl: false,
+          fullscreenControl: false,
+            styles: [],
+        });
+        var marker = new google.maps.Marker({
+          position: {lat: resp.coords.latitude, lng: resp.coords.longitude},
+          map: map,
+          title: 'My location'
+        });
+      })
+    });
+  }
+
   ionViewDidEnter(){
+    this.getDefaultLocation()
     // this.auth.auth.onAuthStateChanged(user=>{
     //   if(user){
     //     this.userCollection.doc(user.email).valueChanges().subscribe(x=>{
