@@ -17,6 +17,7 @@ export class RegisterPage implements OnInit {
   mobile = "";
   password = "";
   confirm_password = "";
+  password_type = 'Password';
   userCollection:AngularFirestoreCollection;
   constructor(db: AngularFirestore, public loadingController: LoadingController,public alertController: AlertController, public auth: AngularFireAuth,private router : Router) {
     this.userCollection = db.collection("users");
@@ -25,6 +26,10 @@ export class RegisterPage implements OnInit {
   ngOnInit() {
   }
 
+
+  viewPassword(type){
+    this.password_type = type;
+  }
 
   async Register(){
     //validate input
@@ -53,7 +58,9 @@ export class RegisterPage implements OnInit {
           //go to login page
           this.auth.auth.currentUser.sendEmailVerification().then(x=>{
             // console.log(x);
-            this.router.navigateByUrl('login');
+              this.auth.auth.signOut().then(()=>{
+                this.router.navigateByUrl('login');
+              });
           })
         });
       }).catch(err=>{

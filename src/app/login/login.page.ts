@@ -47,18 +47,17 @@ export class LoginPage implements OnInit {
       this.showError("Dashboard admins must use a different email to sign in on the app.");
     }
     else{
-      //sing in
-      if(this.auth.auth.currentUser.emailVerified){
-          this.auth.auth.signInWithEmailAndPassword(this.email,this.password).catch(err=>{
-            this.showError(err);
-          }).then(()=>{
-            this.checkUser();
-          });
-      }else{
-        this.showError("Please verify your email before using the app");
-        //send a verification
-        this.auth.auth.currentUser.sendEmailVerification();
-      }
+      this.auth.auth.signInWithEmailAndPassword(this.email,this.password).catch(err=>{
+        this.showError(err);
+      }).then(()=>{
+        if(this.auth.auth.currentUser.emailVerified){
+          this.checkUser();
+        }else{
+          this.showError("Please verify your email before using the app");
+          //send a verification
+          this.auth.auth.currentUser.sendEmailVerification();
+        }
+      });
 
     }
 
