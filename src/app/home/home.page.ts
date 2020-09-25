@@ -7,6 +7,9 @@ import { Router } from '@angular/router';
 import { OneSignal } from '@ionic-native/onesignal/ngx';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Diagnostic } from '@ionic-native/diagnostic/ngx';
+import { ActionSheetController } from '@ionic/angular';
+import { CallNumber } from '@ionic-native/call-number/ngx';
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -14,7 +17,7 @@ import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 })
 export class HomePage {
   userCollection:AngularFirestoreCollection;
-  constructor(db: AngularFirestore,public platform: Platform,public loadingController: LoadingController,public alertController: AlertController, public auth: AngularFireAuth,private router : Router,private oneSignal: OneSignal,private diagnostic: Diagnostic) {
+  constructor(private callNumber: CallNumber,db: AngularFirestore,public platform: Platform,public loadingController: LoadingController,public alertController: AlertController, public auth: AngularFireAuth,private router : Router,private oneSignal: OneSignal,private diagnostic: Diagnostic,public actionSheetController: ActionSheetController) {
     this.userCollection = db.collection("users");
   }
 
@@ -65,6 +68,30 @@ export class HomePage {
 
   requestPage(){
     this.router.navigateByUrl('requests');
+  }
+
+  async Options(){
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Options',
+      cssClass: 'my-custom-class',
+      buttons: [{
+        text: 'Call support',
+        role: 'destructive',
+        icon: 'call',
+        handler: () => {
+          this.callNumber.callNumber('+27732487249', true);
+          console.log('Delete clicked');
+        }
+      }, {
+        text: 'Cancel',
+        icon: 'close',
+        role: 'cancel',
+        handler: () => {
+          console.log('Cancel clicked');
+        }
+      }]
+    });
+    await actionSheet.present();
   }
 
 }

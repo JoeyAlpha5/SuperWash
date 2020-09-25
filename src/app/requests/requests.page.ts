@@ -197,7 +197,7 @@ export class RequestsPage implements OnInit {
           //report driver
           var url = "https://jalome-api-python.herokuapp.com/distance-matrix/";
           this.http.get(url, {params:{"type":"reportDriver", "driver":this.fullName} }).subscribe(x=>{
-            this.presentToast("Driver has been reported");
+            this.presentToast("Washer has been reported");
           });
         }
       }, {
