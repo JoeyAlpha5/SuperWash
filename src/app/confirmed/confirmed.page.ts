@@ -11,6 +11,7 @@ import { ToastController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { PaygatePage } from '../paygate/paygate.page';
 import { ModalController } from '@ionic/angular';
+import { ActionSheetController } from '@ionic/angular';
 declare var google;
 
 
@@ -39,7 +40,7 @@ export class ConfirmedPage implements OnInit {
   url = "https://jalome-api-python.herokuapp.com/distance-matrix/";
   no_washer_url = "https://jalome-api-python.herokuapp.com/distance-matrix/no-washer/";
   washer_details:Observable<any>;
-  constructor(public modalController: ModalController,public toastController: ToastController,db: AngularFirestore, public loadingController: LoadingController,public alertController: AlertController, public auth: AngularFireAuth,private router : Router,private geolocation: Geolocation,private storage: Storage,private http: HttpClient) { 
+  constructor(public actionSheetController: ActionSheetController,public modalController: ModalController,public toastController: ToastController,db: AngularFirestore, public loadingController: LoadingController,public alertController: AlertController, public auth: AngularFireAuth,private router : Router,private geolocation: Geolocation,private storage: Storage,private http: HttpClient) { 
     this.userCollection = db.collection("users");
     this.washerCollection = db.collection("washers");
   }
@@ -296,11 +297,31 @@ export class ConfirmedPage implements OnInit {
   }
 
 
-  homePage(){
-      clearInterval(this.interval);
-      this.storage.clear().then(()=>{
-        this.router.navigateByUrl('home');
-      });
+  async homePage(){
+    var interval = this.interval;
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Cancel request',
+      cssClass: 'my-custom-class',
+      buttons: [{
+        text: 'Confirm cancellation',
+        role: 'destructive',
+        icon: 'checkmark',
+        handler: () => {
+          clearInterval(interval);
+          this.storage.clear().then(()=>{
+            this.router.navigateByUrl('home');
+          });
+        }
+      },{
+        text: 'Close',
+        icon: 'close',
+        role: 'cancel',
+        handler: () => {
+          console.log('Cancel clicked');
+        }
+      }]
+    });
+    await actionSheet.present();
   }
 
   async showError(err){
@@ -312,5 +333,7 @@ export class ConfirmedPage implements OnInit {
     });
     await alert.present();
   }
+
+
 
 }

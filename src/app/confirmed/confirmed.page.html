@@ -62,6 +62,7 @@
     </div>
     <ion-button color="tertiary" *ngIf="payment_mode == 'card'" expand="block" (click)="paygate_initialize()">Continue</ion-button>
     <ion-button *ngIf="payment_mode == 'cash' || payment_mode=='paygate' " expand="block" (click)="confirmPage('none')">Confirm<ion-spinner *ngIf="spinner == true"></ion-spinner></ion-button>
+    <!-- <ion-button *ngIf="payment_mode == 'cash' || payment_mode=='paygate' " expand="block" (click)="Modal()">Confirm<ion-spinner *ngIf="spinner == true"></ion-spinner></ion-button> -->
     <div id="buttonSeperator"></div>
     <ion-button expand="block" color="secondary" (click)="homePage()">Cancel</ion-button>  
   </div>

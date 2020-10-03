@@ -82,6 +82,12 @@ export class AppComponent {
     this.data = this.http.get(url, {params:{"type":"getNotif","notif_id":notif} });
     //
     this.data.subscribe(re=>{
+      //if it is not a washer request
+      if(re.Response == null){
+        loading.dismiss();
+        this.router.navigate(['/home']);
+        return;
+      }
       console.log("result ", re);
       this.storage.set("passenger_fullname", re.Response.fullname);
       this.storage.set("passenger_mobile", re.Response.mobile);

@@ -58,9 +58,12 @@ export class RegisterPage implements OnInit {
           //go to login page
           this.auth.auth.currentUser.sendEmailVerification().then(x=>{
             // console.log(x);
+            this.showRegistrationMessage("Registration successful. Please check your inbox to confirm your account")
+            .then(()=>{
               this.auth.auth.signOut().then(()=>{
                 this.router.navigateByUrl('login');
               });
+            });
           })
         });
       }).catch(err=>{
@@ -68,6 +71,17 @@ export class RegisterPage implements OnInit {
       });
 
     }
+  }
+
+
+  async showRegistrationMessage(msg){
+    const alert = await this.alertController.create({
+      // header: 'Unbale to create account',
+      // subHeader: 'error message:',
+      message: msg,
+      buttons: ['OK']
+    });
+    await alert.present();
   }
 
   async showError(err){
