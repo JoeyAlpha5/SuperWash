@@ -32,7 +32,7 @@
 
    <ion-item class="divider"></ion-item>
     <div id="pricing">
-      <h1>Sub Total: </h1>
+      <h1>Sub Total (including VAT): </h1>
 
       <p>R{{ price }}</p>
    </div>
@@ -61,11 +61,19 @@
       </div>
     </div>
     <ion-button color="tertiary" *ngIf="payment_mode == 'card'" expand="block" (click)="paygate_initialize()">Continue</ion-button>
-    <ion-button *ngIf="payment_mode == 'cash' || payment_mode=='paygate' " expand="block" (click)="confirmPage('none')">Confirm<ion-spinner *ngIf="spinner == true"></ion-spinner></ion-button>
+    <ion-button *ngIf="payment_mode == 'cash' || payment_mode=='paygate' " expand="block" (click)="confirmPage('none')">Confirm</ion-button>
     <!-- <ion-button *ngIf="payment_mode == 'cash' || payment_mode=='paygate' " expand="block" (click)="Modal()">Confirm<ion-spinner *ngIf="spinner == true"></ion-spinner></ion-button> -->
     <div id="buttonSeperator"></div>
-    <ion-button expand="block" color="secondary" (click)="homePage()">Cancel</ion-button>  
-  </div>
 
+
+  </div>
+  </div>
+  <!-- *ngIf="spinner == true" -->
+  <div id="requestLoading" *ngIf="spinner == true">
+    <p id="locatingText">Locating nearest washer, Please wait.</p>
+    <ion-spinner id="spinner" name="circles"></ion-spinner><br><br>
+    <div id="bottomCancelBtn">
+      <ion-button expand="block" color="secondary" (click)="homePage()">Cancel</ion-button>  
+    </div>
   </div>
 </ion-content>

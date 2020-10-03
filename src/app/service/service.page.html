@@ -24,7 +24,7 @@
       <h1>Select services: </h1>
       <p id="serviceOfferedText">Below are the services on offer</p>
 
-      <ion-radio-group>
+      <ion-radio-group [(ngModel)]="radioVal">
         <ion-item *ngFor="let item of services">
           <ion-radio slot="start" value="{{item.Name}}" (ionFocus)="selectService($event,item.Price,item.Name)"></ion-radio>
           <p class="itemName">{{item.Name}}<br/>
@@ -42,17 +42,17 @@
 
      <ion-item class="divider"></ion-item>
      <div id="pricing">
-        <h1 style="font-size:14px;">Total: </h1>
+        <h1 style="font-size:14px;">Total (excluding VAT): </h1>
 
         <p style="font-size:14px;">R{{ sum_of_service }}</p>
      </div>
      <div id="pricing">
-        <h1 style="font-size:14px;">VAT: </h1>
+        <h1 style="font-size:14px;">VAT (15%): </h1>
 
         <p style="font-size:14px;">R{{ vat_amount }}</p>
     </div>
     <div id="pricing">
-      <h1>Sub Total: </h1>
+      <h1>Sub Total (including VAT): </h1>
 
       <p>R{{ vat_plus_total }}</p>
    </div>
