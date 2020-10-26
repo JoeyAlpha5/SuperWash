@@ -34,7 +34,7 @@
     <div id="pricing">
       <h1>Sub Total (including VAT): </h1>
 
-      <p>R{{ price }}</p>
+      <p>R{{ price | number : '.2-2' }}</p>
    </div>
     <div id="cashBox">
       <ion-list id="list">
@@ -71,6 +71,7 @@
   <!-- *ngIf="spinner == true" -->
   <div id="requestLoading" *ngIf="spinner == true">
     <p id="locatingText">Locating nearest washer, Please wait.</p>
+    <p id="counter">{{ interval_counter }}</p>
     <ion-spinner id="spinner" name="circles"></ion-spinner><br><br>
     <div id="bottomCancelBtn">
       <ion-button expand="block" color="secondary" (click)="homePage()">Cancel</ion-button>  

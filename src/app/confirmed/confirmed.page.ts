@@ -249,12 +249,13 @@ export class ConfirmedPage implements OnInit {
     var did_make_payment = url.indexOf("TRANSACTION_STATUS");
     url_to_array = url.substring(did_make_payment).split("=");
     //when paygate payment was unsuccessful
-    if(did_make_payment != -1 && url_to_array[1] != 5){
+    if(did_make_payment != -1 && url_to_array[1] != 5 && url_to_array[1] != 1){
         this.disable_payment_options = false;
         console.log("no payment made, transaction status ", url_to_array[1]);
+        this.showError("Payment was not approved.");
     }
     //if paygate payment was successful
-    else if(did_make_payment != -1 && url_to_array[1] == 5){
+    else if(did_make_payment != -1 && url_to_array[1] == 5 || url_to_array[1] == 1){
         this.disable_payment_options = true;
         this.payment_mode = 'paygate';
         console.log("payment made, transaction status ", url_to_array[1]);

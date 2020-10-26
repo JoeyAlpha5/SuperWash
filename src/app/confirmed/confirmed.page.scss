@@ -27,6 +27,13 @@ div#bottomCont {
   --background: transparent;
 }
 
+p#counter {
+  color: black;
+  font-size: 20px;
+  position: absolute;
+  width: 100%;
+}
+
 
 #bottomCancelBtn{
   width:100%;
@@ -36,7 +43,8 @@ div#bottomCont {
 
 #spinner{
   --color:#000000;
-  transform: scale(2);
+  transform: scale(3);
+  margin-top: 9px;
 }
 
 .itemBlock{

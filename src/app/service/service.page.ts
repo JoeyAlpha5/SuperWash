@@ -20,9 +20,9 @@ export class ServicePage implements OnInit {
   services = [];
   selected_services = [];
   selected_service_price = [];
-  sum_of_service = 0;
-  vat_amount = 0;
-  vat_plus_total = 0;
+  sum_of_service = 0.00;
+  vat_amount = 0.00;
+  vat_plus_total = 0.00;
   vehicle;
   radioVal;
   constructor(db: AngularFirestore, public loadingController: LoadingController,public alertController: AlertController, public auth: AngularFireAuth,private router : Router,private storage: Storage) { 
@@ -46,9 +46,9 @@ export class ServicePage implements OnInit {
     })
     // this.storage.clear();
     this.storage.remove("price");
-    this.sum_of_service = 0;
-    this.vat_amount = 0;
-    this.vat_plus_total = 0;
+    this.sum_of_service = 0.00;
+    this.vat_amount = 0.00;
+    this.vat_plus_total = 0.00;
     this.selected_service_price = [];
     this.selected_services = [];
     // this.auth.auth.onAuthStateChanged(user=>{
@@ -97,9 +97,9 @@ export class ServicePage implements OnInit {
     var amount = 0;
     console.log(this.selected_service_price);
     if(this.selected_service_price.length == 0){
-      this.sum_of_service = 0;
-      this.vat_amount = 0;
-      this.vat_plus_total = 0;
+      this.sum_of_service = 0.00;
+      this.vat_amount = 0.00;
+      this.vat_plus_total = 0.00;
     }
     else{
       for(var x = 0; x < this.selected_service_price.length; x++){

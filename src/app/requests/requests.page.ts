@@ -48,19 +48,25 @@ export class RequestsPage implements OnInit {
 
   ionViewDidEnter(){
     this.auth.auth.onAuthStateChanged(user=>{
-      console.log(user.email);
-      this.userCollection.doc(user.email).ref.get().then(x=>{
-        console.log(x.data());
-        console.log(x);
-        this.user_list = x.data();
-        if("washer" in this.user_list && this.user_list.washer == true){
-          console.log(this.user_list.washer);
-          this.washer();
-        }else{
-          console.log(this.user_list.washer);
-          this.notWasher(this.user_list.fullname);
-        }
-      });
+      console.log("checking requests..");
+      console.log(window.location.href.includes("requests"));
+      if(window.location.href.includes("requests")){
+        console.log(user.email);
+        this.userCollection.doc(user.email).ref.get().then(x=>{
+          console.log(x.data());
+          console.log(x);
+          this.user_list = x.data();
+          if("washer" in this.user_list && this.user_list.washer == true){
+            console.log(this.user_list.washer);
+            this.washer();
+          }else{
+            console.log(this.user_list.washer);
+            this.notWasher(this.user_list.fullname);
+          }
+        });
+
+        
+      }
     });
     this.storage.get("price").then(price=>{
       this.price = price;
@@ -109,6 +115,7 @@ export class RequestsPage implements OnInit {
           this.id_no = x.docs[w].data().driver_id;
           this.photo = x.docs[w].data().image;
           this.default = x.docs[w].data().default;
+          this.plate = x.docs[w].data().plate;
           // washers.unsubscribe();
           break;
         }else{
@@ -157,6 +164,7 @@ export class RequestsPage implements OnInit {
 
 
   cancel(){
+    this.storage.set("price", "0.00");
     console.log(this.default);
     //check if the washer is the default washer first
     if(this.default == true){
@@ -239,6 +247,30 @@ export class RequestsPage implements OnInit {
     await alert.present();
   }
 
+
+  //cancel request
+  async cancelReq(){
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Cancel request',
+      cssClass: 'my-custom-class',
+      buttons: [{
+        text: 'Confirm cancellation',
+        role: 'destructive',
+        icon: 'checkmark',
+        handler: () => {
+          this.cancel();
+        }
+      },{
+        text: 'Close',
+        icon: 'close',
+        role: 'cancel',
+        handler: () => {
+          console.log('Cancel clicked');
+        }
+      }]
+    });
+    await actionSheet.present();
+  }
 
 
 

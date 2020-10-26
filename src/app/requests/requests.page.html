@@ -38,14 +38,14 @@
       <ion-item class="driverData">
         <ion-icon color="primary" name="star" slot="start"></ion-icon>
         <ion-label>
-          Car wash fee: <b>R{{price}}</b>
+          Car wash fee: <b>R{{price | number : '.2-2'}}</b>
         </ion-label>
       </ion-item>
   
       <ion-icon class="call" name="call" (click)="call(mobile)"></ion-icon>
       <ion-icon class="call report" name="thumbs-down" (click)="report()"></ion-icon>
       <ion-button  expand="block" (click)="dismiss()" id="cancelBtn" color="primary">Okay</ion-button>
-      <ion-button  expand="block" (click)="cancel()" id="cancelBtn" color="secondary">Cancel</ion-button>
+      <ion-button  expand="block" (click)="cancelReq()" id="cancelBtn" color="secondary">Cancel</ion-button>
     </div>
 
   </div>

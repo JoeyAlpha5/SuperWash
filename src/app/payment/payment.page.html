@@ -46,7 +46,7 @@
     <div id="pricing">
       <h1>Sub Total (including VAT): </h1>
 
-      <p>R{{ price }}</p>
+      <p>R{{ price | number : '.2-2' }}</p>
    </div>
     <ion-button expand="block" (click)="confirmPage()">Continue</ion-button>  
   </div>

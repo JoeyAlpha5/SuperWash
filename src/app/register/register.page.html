@@ -37,7 +37,9 @@
         </ion-item>
         <ion-item class="itemBlock">
           <ion-label position="floating">Confirm Password</ion-label>
-          <ion-input type="password" [(ngModel)]="confirm_password"></ion-input>
+          <ion-input type="{{confirm_password_type}}" type="password" [(ngModel)]="confirm_password"></ion-input>
+          <ion-icon *ngIf="confirm_password_type == 'Password'" name="eye-outline" (click)="viewConfirmPassword('text')"  slot="end" class="eye"></ion-icon>
+          <ion-icon *ngIf="confirm_password_type == 'text'" (click)="viewConfirmPassword('Password')"  name="eye-off-outline" slot="end" class="eye"></ion-icon>
         </ion-item>
       </div>
 

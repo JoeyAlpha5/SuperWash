@@ -48,10 +48,15 @@ export class LoginPage implements OnInit {
     }
     else{
       this.auth.auth.signInWithEmailAndPassword(this.email,this.password).catch(err=>{
-        this.showError(err);
+        if(err.message == "Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later."){
+          this.showError("Access to this account has been temporarily disabled due to many failed login attempts. please try again after 1 minute");  
+        }else{
+          this.showError(err);
+        }
       }).then(()=>{
         if(this.auth.auth.currentUser.emailVerified){
-          this.checkUser();
+          // this.checkUser();
+          this.router.navigateByUrl('home');
         }else{
           this.showError("Please verify your email before using the app");
           //send a verification
