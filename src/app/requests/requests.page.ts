@@ -234,6 +234,7 @@ export class RequestsPage implements OnInit {
     const alert = await this.alertController.create({
       header: header,
       subHeader: 'message:',
+      backdropDismiss:false,
       message: err,
       buttons: [
         {

@@ -54,6 +54,9 @@ export class LoginPage implements OnInit {
           this.showError(err);
         }
       }).then(()=>{
+
+        // this.router.navigateByUrl('home');
+
         if(this.auth.auth.currentUser.emailVerified){
           // this.checkUser();
           this.router.navigateByUrl('home');
@@ -93,7 +96,8 @@ export class LoginPage implements OnInit {
       header: 'Unable to login',
       // subHeader: 'error message:',
       message: err,
-      buttons: ['OK']
+      buttons: ['OK'],
+      backdropDismiss:false
     });
     await alert.present();
   }

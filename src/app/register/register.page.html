@@ -43,7 +43,10 @@
         </ion-item>
       </div>
 
-      <ion-button expand="block" (click)="Register()">Register</ion-button>
+      <ion-button expand="block" (click)="Register()">
+        Register
+        <ion-spinner *ngIf="registerSpinner == true"></ion-spinner>
+      </ion-button>
       <div id="registerBtn"></div>
 
     </div>

@@ -15,10 +15,16 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
+
 export class HomePage {
   userCollection:AngularFirestoreCollection;
+  washerCollection:AngularFirestoreCollection;
+  userIsWasher;
+  user_list_;
+  washerAvailable = false;
   constructor(private callNumber: CallNumber,db: AngularFirestore,public platform: Platform,public loadingController: LoadingController,public alertController: AlertController, public auth: AngularFireAuth,private router : Router,private oneSignal: OneSignal,private diagnostic: Diagnostic,public actionSheetController: ActionSheetController) {
     this.userCollection = db.collection("users");
+    this.washerCollection = db.collection("washers");
   }
 
 
@@ -29,10 +35,49 @@ export class HomePage {
         console.log(user.email);
         console.log(identity.userId);
         this.userCollection.doc(user.email).update({device_id:id});
+
+        this.isWasher(user.email);
       });
     }).catch(err=>{
       //unable to get device id
     });
+    // this.isWasher('1603898@students.wits.ac.za');
+  }
+
+  isWasher(email){
+    // var current_user_email = this.auth.auth.currentUser.email;
+    this.userCollection.doc(email).ref.get().then(x=>{
+      console.log(x.data());
+      this.user_list_ = x.data();
+      if("washer" in this.user_list_ && this.user_list_.washer == true){
+        this.userIsWasher = true;
+        console.log("is washer");
+        this.getWasherStatus(email);
+      }else{
+        this.userIsWasher = false;
+        console.log("is not washer");
+      }
+    });
+  }
+
+
+  // get washer availability status
+  getWasherStatus(email){
+    this.washerCollection.doc(email).ref.get().then(x=>{
+      if(x.data().available == true){
+        this.washerAvailable = true;
+        console.log("washer available");
+      }else{
+        this.washerAvailable = false;
+        console.log("washer not available");
+      }
+    })
+  }
+
+  // update washer availability status
+  updateWasherAvailability(event){
+    this.washerAvailable = event.target.checked;
+    this.washerCollection.doc(this.auth.auth.currentUser.email).update({available:event.target.checked});
   }
 
   servicePage(){

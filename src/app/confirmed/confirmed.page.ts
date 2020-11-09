@@ -187,8 +187,13 @@ export class ConfirmedPage implements OnInit {
         clearInterval(this.interval);
         this.spinner = false;
         //send message saying no washer is available
-        this.http.get(this.no_washer_url,{params:{"user_fullname":this.name,"user_mobile":this.mobile,}}).subscribe(re=>{
-            console.log(re);
+        // first get the washers location
+        this.geolocation.getCurrentPosition().then((resp)=>{
+          this.http.get('https://maps.googleapis.com/maps/api/geocode/json?address='+resp.coords.latitude+','+resp.coords.longitude+'&key=AIzaSyD7FkGPNnb-TnwiweIfGPgVGy3N3A0O6Mk').subscribe(res=>{
+              this.http.get(this.no_washer_url,{params:{"user_fullname":this.name,"user_mobile":this.mobile,"location":res['results'][0]['formatted_address']}}).subscribe(re=>{
+                console.log(re);
+            });
+          })
         });
         //allocate default washer
         this.allocateDefaultWasher();
@@ -216,6 +221,15 @@ export class ConfirmedPage implements OnInit {
         });
         toast.present();
     }
+
+    //long toast
+    async presentLongToast(message) {
+      const toast = await this.toastController.create({
+        message: message,
+        duration: 8000
+      });
+      toast.present();
+  }
 
   ionViewDidEnter(){
     //get username
@@ -256,6 +270,7 @@ export class ConfirmedPage implements OnInit {
     }
     //if paygate payment was successful
     else if(did_make_payment != -1 && url_to_array[1] == 5 || url_to_array[1] == 1){
+        this.presentLongToast("Payment successful");
         this.disable_payment_options = true;
         this.payment_mode = 'paygate';
         console.log("payment made, transaction status ", url_to_array[1]);
@@ -268,6 +283,8 @@ export class ConfirmedPage implements OnInit {
     }
 
   }
+
+
 
 
   setMap(location){
@@ -334,6 +351,23 @@ export class ConfirmedPage implements OnInit {
     });
     await alert.present();
   }
+
+  // async showSuccess(msg){
+  //   const alert = await this.alertController.create({
+  //     header: 'Payment successful',
+  //   //   subHeader: 'error:',
+  //     message: msg,
+  //     buttons: [
+  //       {
+  //         text: 'Okay',
+  //         handler: () => {
+  //           this.route.navigate(['/home']);
+  //         }
+  //       }
+  //     ]
+  //   });
+  //   await alert.present();
+  // }
 
 
 

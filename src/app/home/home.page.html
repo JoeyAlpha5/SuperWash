@@ -13,12 +13,16 @@
       </div><br>
       <h1>QuikWash</h1>
       <h6>JHB car wash service</h6>
-      <p>Request our car wash service by clicking 
+      <p *ngIf="userIsWasher == false">Request our car wash service by clicking 
         the button below.</p>
+      <ion-button *ngIf="userIsWasher == false" (click)="servicePage()" expand="block">Request Car Wash</ion-button>
 
-      <ion-button (click)="servicePage()" expand="block">Request Car Wash</ion-button>
-
-
+      <ion-list *ngIf="userIsWasher == true">
+        <ion-item>
+          <ion-label>Available for car wash requests</ion-label>
+          <ion-toggle (ionChange)="updateWasherAvailability($event)" [(ngModel)]="washerAvailable"></ion-toggle>
+        </ion-item>
+      </ion-list>
     </div>
 
   </div>

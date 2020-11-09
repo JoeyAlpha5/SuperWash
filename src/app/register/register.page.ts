@@ -20,6 +20,7 @@ export class RegisterPage implements OnInit {
   password_type = 'Password';
   confirm_password_type = 'Password';
   userCollection:AngularFirestoreCollection;
+  registerSpinner = false;
   constructor(db: AngularFirestore, public loadingController: LoadingController,public alertController: AlertController, public auth: AngularFireAuth,private router : Router) {
     this.userCollection = db.collection("users");
   }
@@ -55,7 +56,9 @@ export class RegisterPage implements OnInit {
       this.showError("Passwords do not match")
     }
     else{
+
       //register user
+      this.registerSpinner = true;
       this.auth.auth.createUserWithEmailAndPassword(this.email, this.password).then(()=>{
         this.userCollection.doc(this.email).set({mobile:this.mobile, email:this.email, fullname:this.fullname}).catch(err=>{
           this.showError(err);
@@ -84,17 +87,21 @@ export class RegisterPage implements OnInit {
       // header: 'Unbale to create account',
       // subHeader: 'error message:',
       message: msg,
-      buttons: ['OK']
+      buttons: ['OK'],
+      backdropDismiss:false
     });
     await alert.present();
   }
 
   async showError(err){
+    //
+    this.registerSpinner = false;
     const alert = await this.alertController.create({
       header: 'Unbale to create account',
       // subHeader: 'error message:',
       message: err,
-      buttons: ['OK']
+      buttons: ['OK'],
+      backdropDismiss:false
     });
     await alert.present();
   }
