@@ -9,6 +9,10 @@ import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/fires
 import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 import { ActionSheetController } from '@ionic/angular';
 import { CallNumber } from '@ionic-native/call-number/ngx';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { HttpClient } from '@angular/common/http';
+import { ToastController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-home',
@@ -22,21 +26,26 @@ export class HomePage {
   userIsWasher;
   user_list_;
   washerAvailable = false;
-  constructor(private callNumber: CallNumber,db: AngularFirestore,public platform: Platform,public loadingController: LoadingController,public alertController: AlertController, public auth: AngularFireAuth,private router : Router,private oneSignal: OneSignal,private diagnostic: Diagnostic,public actionSheetController: ActionSheetController) {
+  washerLocation;
+  places = [];
+  places_data;
+  constructor(public toastController: ToastController,private http: HttpClient,private geolocation: Geolocation,private callNumber: CallNumber,db: AngularFirestore,public platform: Platform,public loadingController: LoadingController,public alertController: AlertController, public auth: AngularFireAuth,private router : Router,private oneSignal: OneSignal,private diagnostic: Diagnostic,public actionSheetController: ActionSheetController) {
     this.userCollection = db.collection("users");
     this.washerCollection = db.collection("washers");
   }
 
 
   ionViewDidEnter(){
+    this.auth.user.subscribe(x=>{
+      this.isWasher(x.email);
+    })
     this.oneSignal.getIds().then(identity => {
       let id = identity.userId;
       this.auth.auth.onAuthStateChanged(user=>{
         console.log(user.email);
         console.log(identity.userId);
         this.userCollection.doc(user.email).update({device_id:id});
-
-        this.isWasher(user.email);
+        // this.isWasher(user.email);
       });
     }).catch(err=>{
       //unable to get device id
@@ -45,17 +54,14 @@ export class HomePage {
   }
 
   isWasher(email){
-    // var current_user_email = this.auth.auth.currentUser.email;
     this.userCollection.doc(email).ref.get().then(x=>{
       console.log(x.data());
       this.user_list_ = x.data();
       if("washer" in this.user_list_ && this.user_list_.washer == true){
         this.userIsWasher = true;
-        console.log("is washer");
         this.getWasherStatus(email);
       }else{
         this.userIsWasher = false;
-        console.log("is not washer");
       }
     });
   }
@@ -63,21 +69,60 @@ export class HomePage {
 
   // get washer availability status
   getWasherStatus(email){
+    // set washer location
+    this.geolocation.getCurrentPosition().then((resp)=>{
+        this.http.get('https://maps.googleapis.com/maps/api/geocode/json?address='+resp.coords.latitude+','+resp.coords.longitude+'&key=AIzaSyD7FkGPNnb-TnwiweIfGPgVGy3N3A0O6Mk').subscribe(re=>{
+          this.washerLocation= re['results'][0]['formatted_address'];
+          this.washerCollection.doc(email).update({"location":this.washerLocation});
+          this.presentToast("Location updated");
+      })
+    });
+
+
     this.washerCollection.doc(email).ref.get().then(x=>{
       if(x.data().available == true){
         this.washerAvailable = true;
-        console.log("washer available");
       }else{
         this.washerAvailable = false;
-        console.log("washer not available");
       }
     })
+  }
+
+  //
+  autocomplete(){
+    console.log(this.washerLocation);
+    var url = "https://jalome-api-python.herokuapp.com/distance-matrix/";
+    this.http.get(url, {params:{"type":"getPlaces", "input":this.washerLocation} }).subscribe(x=>{
+      this.places_data = x;
+      if(this.places_data.data.length > 1){
+        this.places = this.places_data.data;
+      }
+    });
+  }
+
+  SetDestination(destination){
+    console.log(destination);
+    this.washerLocation = destination;
+    this.places = [];
+    this.auth.user.subscribe(x=>{
+      this.washerCollection.doc(x.email).update({"location":this.washerLocation}).then(()=>{
+        this.presentToast("Location updated");
+      });
+    });
   }
 
   // update washer availability status
   updateWasherAvailability(event){
     this.washerAvailable = event.target.checked;
     this.washerCollection.doc(this.auth.auth.currentUser.email).update({available:event.target.checked});
+  }
+
+  async presentToast(message) {
+      const toast = await this.toastController.create({
+        message: message,
+        duration: 2000
+      });
+      toast.present();
   }
 
   servicePage(){

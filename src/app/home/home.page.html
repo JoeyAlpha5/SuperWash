@@ -22,6 +22,15 @@
           <ion-label>Available for car wash requests</ion-label>
           <ion-toggle (ionChange)="updateWasherAvailability($event)" [(ngModel)]="washerAvailable"></ion-toggle>
         </ion-item>
+        <ion-item class="itemBlock">
+          <ion-label position="floating">Please enter your selected location here</ion-label>
+          <ion-input id="destinationInput" (ionChange)="autocomplete()"  [(ngModel)]="washerLocation" ></ion-input>
+        </ion-item>
+        <div id="AutoCompleteResults">
+          <ion-item id="resultingPlace" *ngFor="let item of places" (click)="SetDestination(item.description)">
+            {{ item.description }}
+          </ion-item>
+        </div>
       </ion-list>
     </div>
 
